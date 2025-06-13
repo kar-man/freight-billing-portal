@@ -23,23 +23,14 @@ export default function App() {
             default: return <DashboardPage />;
         }
     };
-    
+
     return (
-        <div className="min-h-screen bg-gray-50 font-sans antialiased">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 font-sans antialiased">
             <Header activePage={activePage} setActivePage={setActivePage} isMenuOpen={isMenuOpen} setMenuOpen={setMenuOpen} />
             <main className="max-w-screen-2xl mx-auto p-4 sm:p-6 lg:p-8">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activePage}
-                        variants={pageVariants}
-                        initial="initial"
-                        animate="in"
-                        exit="out"
-                        transition={pageTransition}
-                    >
-                        {renderPage()}
-                    </motion.div>
-                </AnimatePresence>
+                <div key={activePage}>
+                    {renderPage()}
+                </div>
             </main>
         </div>
     );

@@ -1,16 +1,89 @@
 import { 
     ShoppingCart, FileText, FileCheck2, DollarSign, 
     PackageCheck, Truck, Clock, PackageX, AlertCircle, 
-    Users, TrendingUp 
+    Users, TrendingUp, Package2
 } from 'lucide-react';
 
 export const mockData = {
     dashboard: {
         stats: [
-            { title: 'Total Orders', value: '1,247', trend: { value: '12.5%', isPositive: true }, icon: ShoppingCart, iconColor: 'blue' },
-            { title: 'Outstanding Invoices', value: '89', trend: { value: '8.2%', isPositive: false }, icon: FileText, iconColor: 'orange' },
-            { title: 'Paid Invoices', value: '1,158', trend: { value: '15.3%', isPositive: true }, icon: FileCheck2, iconColor: 'green' },
+            { title: 'Total Orders', value: '1,247', trend: { value: '12.5%', isPositive: true }, icon: Package2, iconColor: 'blue' },
+            { title: 'Outstanding Invoices', value: '$456,780', trend: { value: '8.2%', isPositive: false }, icon: FileText, iconColor: 'orange' },
+            { title: 'Paid Invoices', value: '$2,847,650', trend: { value: '15.3%', isPositive: true }, icon: FileCheck2, iconColor: 'green' },
             { title: 'Revenue', value: '$2,847,650', trend: { value: '18.7%', isPositive: true }, icon: DollarSign, iconColor: 'purple' },
+        ],
+        actionableOrders: {
+            currentMonth: 'June 2025',
+            missingBillingAmount: { 
+                count: 23, 
+                value: '$125,430', 
+                description: 'Orders missing billing amount',
+                byMonth: {
+                    'June 2025': { count: 12, value: '$68,250' },
+                    'May 2025': { count: 8, value: '$42,180' },
+                    'April 2025': { count: 3, value: '$15,000' }
+                }
+            },
+            missingSupportingDocs: { 
+                count: 15, 
+                value: '$87,650', 
+                description: 'Orders missing supporting documents',
+                byMonth: {
+                    'June 2025': { count: 9, value: '$52,300' },
+                    'May 2025': { count: 4, value: '$23,450' },
+                    'April 2025': { count: 2, value: '$11,900' }
+                }
+            },
+            missingPOD: { 
+                count: 18, 
+                value: '$103,200', 
+                description: 'Orders missing proof of delivery',
+                byMonth: {
+                    'June 2025': { count: 10, value: '$58,700' },
+                    'May 2025': { count: 6, value: '$32,500' },
+                    'April 2025': { count: 2, value: '$12,000' }
+                }
+            }
+        },
+        billingStatus: {
+            currentMonth: 'June 2025',
+            readyToBill: { 
+                count: 42, 
+                value: '$235,780', 
+                description: 'Orders ready to bill',
+                byMonth: {
+                    'June 2025': { count: 22, value: '$125,450' },
+                    'May 2025': { count: 15, value: '$82,330' },
+                    'April 2025': { count: 5, value: '$28,000' }
+                }
+            },
+            draftInvoices: { 
+                count: 28, 
+                value: '$156,430', 
+                description: 'Invoices in draft state',
+                byMonth: {
+                    'June 2025': { count: 16, value: '$89,250' },
+                    'May 2025': { count: 9, value: '$52,180' },
+                    'April 2025': { count: 3, value: '$15,000' }
+                }
+            },
+            disputedInvoices: { 
+                count: 12, 
+                value: '$78,900', 
+                description: 'Invoices in disputed state',
+                byMonth: {
+                    'June 2025': { count: 7, value: '$45,300' },
+                    'May 2025': { count: 4, value: '$26,600' },
+                    'April 2025': { count: 1, value: '$7,000' }
+                }
+            }
+        },
+        liveFeed: [
+            { id: 1, type: 'invoice_issued', description: '$10,000 worth of orders has been issued with Invoices to Clients', timestamp: '2 hours ago', icon: 'FileCheck2', iconColor: 'green' },
+            { id: 2, type: 'invoice_disputed', description: '$400 worth of invoices moved to disputed state', timestamp: '3 hours ago', icon: 'AlertCircle', iconColor: 'red' },
+            { id: 3, type: 'payment_received', description: '$28,900 payment received from Global Logistics Inc', timestamp: '5 hours ago', icon: 'DollarSign', iconColor: 'green' },
+            { id: 4, type: 'order_ready', description: '$45,200 in orders now ready for billing', timestamp: '6 hours ago', icon: 'CheckCircle', iconColor: 'blue' },
+            { id: 5, type: 'invoice_overdue', description: '$12,300 in invoices now overdue by 30+ days', timestamp: '1 day ago', icon: 'Clock', iconColor: 'orange' },
         ],
         recentOrders: [
             { id: 'ORD-2024-001', client: 'Acme Corp', status: 'Delivered', amount: '$15,750.00', date: 'Jan 15, 2024' },

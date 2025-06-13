@@ -26,7 +26,7 @@ const ClientsPage = () => {
             <motion.div variants={itemVariants} className="mt-8">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold text-gray-800">All Clients</h2>
-                    <p className="text-sm text-gray-500">Showing {mockData.clients.allClients.length} of {mockData.clients.allClients.length} clients</p>
+                    <p className="text-sm font-medium text-gray-500">Showing {mockData.clients.allClients.length} of {mockData.clients.allClients.length} clients</p>
                 </div>
                 <motion.div className={`grid gap-6 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'}`} variants={containerVariants} key={viewMode}>
                     {mockData.clients.allClients.map((client) => <ClientCard key={client.name} client={client} />)}

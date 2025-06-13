@@ -27,7 +27,7 @@ const OrdersPage = () => (
             <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="text-xs text-gray-500 font-semibold uppercase border-b border-gray-200">
+                        <thead className="text-xs font-semibold text-gray-500 uppercase border-b border-gray-200">
                             <tr>
                                 <th scope="col" className="px-6 py-4">Order ID</th>
                                 <th scope="col" className="px-6 py-4">Client</th>
@@ -41,10 +41,10 @@ const OrdersPage = () => (
                             {mockData.orders.allOrders.map((order, index) => (
                                 <tr key={`${order.id}-${index}`} className="bg-white hover:bg-gray-50 transition-colors duration-150">
                                     <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">{order.id}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">{order.client}</td>
+                                    <td className="px-6 py-4 text-sm font-medium text-gray-600">{order.client}</td>
                                     <td className="px-6 py-4 text-sm"><StatusBadge status={order.status} /></td>
                                     <td className="px-6 py-4 text-sm font-medium text-gray-800">{order.amount}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">{order.date}</td>
+                                    <td className="px-6 py-4 text-sm font-medium text-gray-600">{order.date}</td>
                                     <td className="px-6 py-4 text-sm">
                                         <div className="flex justify-end">
                                             <button className="flex items-center font-medium text-gray-600 hover:text-gray-900">
