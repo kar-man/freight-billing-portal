@@ -1,8 +1,9 @@
 # dependencies
 /node_modules
+/.idea
 /.pnp
 .pnp.js
-
+/.gitignore
 # testing
 /coverage
 
