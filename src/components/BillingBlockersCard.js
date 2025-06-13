@@ -61,8 +61,6 @@ const BillingBlockersCard = ({ data }) => {
                 // Convert string like '$68,250' to number
                 total += parseInt(value.replace(/[$,]/g, ''));
             };
-
-            export default BillingBlockersCard;
         });
         return total;
     }, [selectedMonthData]);
