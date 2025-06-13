@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 import Header from './components/Header';
 import DashboardPage from './pages/DashboardPage';
@@ -7,7 +6,6 @@ import OrdersPage from './pages/OrdersPage';
 import InvoicesPage from './pages/InvoicesPage';
 import ClientsPage from './pages/ClientsPage';
 import ReportsPage from './pages/ReportsPage';
-import { pageVariants, pageTransition } from './utils/animationVariants';
 
 export default function App() {
     const [activePage, setActivePage] = useState('dashboard');
