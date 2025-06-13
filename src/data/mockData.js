@@ -84,6 +84,11 @@ export const mockData = {
             { id: 3, type: 'payment_received', description: '$28,900 payment received from Global Logistics Inc', timestamp: '5 hours ago', icon: 'DollarSign', iconColor: 'green' },
             { id: 4, type: 'order_ready', description: '$45,200 in orders now ready for billing', timestamp: '6 hours ago', icon: 'CheckCircle', iconColor: 'blue' },
             { id: 5, type: 'invoice_overdue', description: '$12,300 in invoices now overdue by 30+ days', timestamp: '1 day ago', icon: 'Clock', iconColor: 'orange' },
+            { id: 6, type: 'payment_received', description: '$15,750 payment received from Acme Corp', timestamp: '1 day ago', icon: 'DollarSign', iconColor: 'green' },
+            { id: 7, type: 'invoice_issued', description: '$8,750 worth of orders has been issued with Invoices to Freight Masters', timestamp: '2 days ago', icon: 'FileCheck2', iconColor: 'green' },
+            { id: 8, type: 'order_ready', description: '$32,500 in orders now ready for billing', timestamp: '2 days ago', icon: 'CheckCircle', iconColor: 'blue' },
+            { id: 9, type: 'invoice_disputed', description: '$7,800 worth of invoices moved to disputed state', timestamp: '3 days ago', icon: 'AlertCircle', iconColor: 'red' },
+            { id: 10, type: 'invoice_overdue', description: '$9,450 in invoices now overdue by 45+ days', timestamp: '3 days ago', icon: 'Clock', iconColor: 'orange' },
         ],
         recentOrders: [
             { id: 'ORD-2024-001', client: 'Acme Corp', status: 'Delivered', amount: '$15,750.00', date: 'Jan 15, 2024' },

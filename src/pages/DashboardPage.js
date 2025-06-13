@@ -1,11 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ChevronDown, Eye } from 'lucide-react';
 
 import PageHeader from '../components/PageHeader';
 import StatCard from '../components/StatCard';
-import StatusBadge from '../components/StatusBadge';
 import BillingBlockersCard from '../components/BillingBlockersCard';
+import RevenuePipeline from '../components/RevenuePipeline';
 import LiveFeedCard from '../components/LiveFeedCard';
 import { mockData } from '../data/mockData';
 import { containerVariants, itemVariants } from '../utils/animationVariants';
@@ -26,14 +25,24 @@ const DashboardPage = () => (
         <motion.div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6" variants={containerVariants}>
             {/* Section 2: Actionable Information (Left Column - 2/3 width) */}
             <div className="lg:col-span-2">
-                <motion.div variants={itemVariants}>
-                    <BillingBlockersCard data={mockData.dashboard.actionableOrders} />
-                </motion.div>
+                <div className="grid grid-cols-1 gap-6">
+                    {/* Billing Blockers Card */}
+                    <motion.div variants={itemVariants}>
+                        <BillingBlockersCard data={mockData.dashboard.actionableOrders} />
+                    </motion.div>
+
+                    {/* Action Queue (Revenue Pipeline) Card */}
+                    <motion.div variants={itemVariants}>
+                        <RevenuePipeline data={mockData.dashboard.billingStatus} />
+                    </motion.div>
+                </div>
             </div>
 
             {/* Section 3: Live Feed (Right Column - 1/3 width) */}
-            <motion.div variants={itemVariants} className="lg:col-span-1">
-                <LiveFeedCard data={mockData.dashboard.liveFeed} />
+            <motion.div variants={itemVariants} className="lg:col-span-1 h-full">
+                <div className="h-full">
+                    <LiveFeedCard data={mockData.dashboard.liveFeed} />
+                </div>
             </motion.div>
         </motion.div>
 

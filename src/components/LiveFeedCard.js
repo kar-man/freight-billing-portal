@@ -23,22 +23,22 @@ const LiveFeedCard = ({ data }) => {
     const getIconColorClass = (color) => {
         switch(color) {
             case 'green':
-                return 'bg-green-100/70 text-green-600';
+                return 'bg-green-100/50 text-green-600';
             case 'red':
-                return 'bg-red-100/70 text-red-600';
+                return 'bg-red-100/50 text-red-600';
             case 'blue':
-                return 'bg-blue-100/70 text-blue-600';
+                return 'bg-blue-100/50 text-blue-600';
             case 'orange':
-                return 'bg-orange-100/70 text-orange-600';
+                return 'bg-orange-100/50 text-orange-600';
             default:
-                return 'bg-gray-100/70 text-gray-600';
+                return 'bg-gray-100/50 text-gray-600';
         }
     };
 
     return (
-        <div className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-900/10 border border-white/20 p-6 h-full">
+        <div className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-900/10 border border-white/20 p-6 h-full flex flex-col">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Live Feed</h2>
-            <div className="space-y-4">
+            <div className="space-y-4 flex-grow overflow-y-auto custom-scrollbar">
                 {data.map((item) => (
                     <motion.div 
                         key={item.id}
