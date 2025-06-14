@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import Header from './components/common/Header';
+import Header from './components/layout/Header';
 import DashboardPage from './features/dashboard/DashboardPage';
 import OrdersPage from './features/orders/OrdersPage';
 import InvoicesPage from './features/invoices/InvoicesPage';

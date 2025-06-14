@@ -1,3 +1,131 @@
+/**
+ * @typedef {Object} ColorShade
+ * @property {string} 50
+ * @property {string} 100
+ * @property {string} 500
+ * @property {string} 600
+ */
+
+/**
+ * @typedef {Object} NeutralGray
+ * @property {string} 50
+ * @property {string} 100
+ * @property {string} 200
+ * @property {string} 300
+ * @property {string} 400
+ * @property {string} 500
+ * @property {string} 600
+ * @property {string} 700
+ * @property {string} 800
+ * @property {string} 900
+ */
+
+/**
+ * @typedef {Object} Colors
+ * @property {Object} primary
+ * @property {ColorShade} primary.blue
+ * @property {ColorShade} primary.green
+ * @property {ColorShade} primary.orange
+ * @property {ColorShade} primary.purple
+ * @property {ColorShade} primary.red
+ * @property {Object} neutral
+ * @property {string} neutral.white
+ * @property {NeutralGray} neutral.gray
+ * @property {string} neutral.black
+ */
+
+/**
+ * @typedef {Object} Typography
+ * @property {Object} fontFamily
+ * @property {string[]} fontFamily.sans
+ * @property {Object} fontSize
+ * @property {string} fontSize.xs
+ * @property {string} fontSize.sm
+ * @property {string} fontSize.base
+ * @property {string} fontSize.lg
+ * @property {string} fontSize.xl
+ * @property {string} fontSize.2xl
+ * @property {string} fontSize.3xl
+ * @property {string} fontSize.4xl
+ * @property {string} fontSize.5xl
+ * @property {Object} fontWeight
+ * @property {string} fontWeight.normal
+ * @property {string} fontWeight.medium
+ * @property {string} fontWeight.semibold
+ * @property {string} fontWeight.bold
+ * @property {Object} lineHeight
+ * @property {string} lineHeight.none
+ * @property {string} lineHeight.tight
+ * @property {string} lineHeight.snug
+ * @property {string} lineHeight.normal
+ * @property {string} lineHeight.relaxed
+ * @property {string} lineHeight.loose
+ */
+
+/**
+ * @typedef {Object} Spacing
+ * @property {string} px
+ * @property {string} 0
+ * @property {string} 0.5
+ * @property {string} 1
+ * @property {string} 1.5
+ * @property {string} 2
+ * @property {string} 2.5
+ * @property {string} 3
+ * @property {string} 3.5
+ * @property {string} 4
+ * @property {string} 5
+ * @property {string} 6
+ * @property {string} 8
+ * @property {string} 10
+ * @property {string} 12
+ * @property {string} 16
+ * @property {string} 20
+ * @property {string} 24
+ * @property {string} 32
+ * @property {string} 40
+ * @property {string} 48
+ * @property {string} 56
+ * @property {string} 64
+ */
+
+/**
+ * @typedef {Object} BorderRadius
+ * @property {string} none
+ * @property {string} sm
+ * @property {string} DEFAULT
+ * @property {string} md
+ * @property {string} lg
+ * @property {string} xl
+ * @property {string} 2xl
+ * @property {string} 3xl
+ * @property {string} full
+ */
+
+/**
+ * @typedef {Object} Shadows
+ * @property {string} sm
+ * @property {string} DEFAULT
+ * @property {string} md
+ * @property {string} lg
+ * @property {string} xl
+ * @property {string} 2xl
+ * @property {string} inner
+ * @property {string} none
+ */
+
+/**
+ * @typedef {Object} Tokens
+ * @property {Colors} colors
+ * @property {Typography} typography
+ * @property {Spacing} spacing
+ * @property {BorderRadius} borderRadius
+ * @property {Shadows} shadows
+ */
+
+/**
+ * @type {Tokens}
+ */
 export const tokens = {
   colors: {
     primary: {

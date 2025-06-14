@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronDown, FileOutput, BarChart2, PieChart } from 'lucide-react';
 
-import PageHeader from '../../components/common/PageHeader';
-import StatCard from '../../components/common/StatCard';
-import LoadingState from '../../components/common/LoadingState';
-import ErrorState from '../../components/common/ErrorState';
+import PageHeader from '../../components/layout/PageHeader';
+import StatCard from '../../components/ui/StatCard';
+import LoadingState from '../../components/ui/LoadingState';
+import ErrorState from '../../components/ui/ErrorState';
 import { useReportsData } from './api/useReportsData';
 import { useAppContext } from '../../context/AppContext';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';

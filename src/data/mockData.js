@@ -1,8 +1,18 @@
 import { 
     ShoppingCart, FileText, FileCheck2, DollarSign, 
     PackageCheck, Truck, Clock, PackageX, AlertCircle, 
-    Users, TrendingUp, Package2, CheckCircle
+    Users, TrendingUp, Package2
 } from 'lucide-react';
+
+/**
+ * @typedef {import('../types/common').Status} Status
+ * @typedef {import('../types/orders').Order} Order
+ * @typedef {import('../types/invoices').Invoice} Invoice
+ * @typedef {import('../types/clients').Client} Client
+ * @typedef {import('../types/context').OrdersData} OrdersData
+ * @typedef {import('../types/context').InvoicesData} InvoicesData
+ * @typedef {import('../types/context').ClientsData} ClientsData
+ */
 
 export const mockData = {
     dashboard: {

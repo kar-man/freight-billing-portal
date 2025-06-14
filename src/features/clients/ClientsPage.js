@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-import PageHeader from '../../components/common/PageHeader';
-import FilterControls from '../../components/common/FilterControls';
-import StatCard from '../../components/common/StatCard';
-import LoadingState from '../../components/common/LoadingState';
-import ErrorState from '../../components/common/ErrorState';
+import PageHeader from '../../components/layout/PageHeader';
+import FilterControls from '../../components/filters/FilterControls';
+import StatCard from '../../components/ui/StatCard';
+import LoadingState from '../../components/ui/LoadingState';
+import ErrorState from '../../components/ui/ErrorState';
 import ClientCard from './components/ClientCard';
 import { useClientsData } from './api/useClientsData';
 import { useAppContext } from '../../context/AppContext';

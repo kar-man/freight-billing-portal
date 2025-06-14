@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-import PageHeader from '../../components/common/PageHeader';
-import StatCard from '../../components/common/StatCard';
-import LoadingState from '../../components/common/LoadingState';
-import ErrorState from '../../components/common/ErrorState';
-import BillingBlockersCard from '../../components/dashboard/BillingBlockersCard';
-import RevenuePipeline from '../../components/dashboard/RevenuePipeline';
-import LiveFeedCard from '../../components/dashboard/LiveFeedCard';
+import PageHeader from '../../components/layout/PageHeader';
+import StatCard from '../../components/ui/StatCard';
+import LoadingState from '../../components/ui/LoadingState';
+import ErrorState from '../../components/ui/ErrorState';
+import BillingBlockersCard from './components/BillingBlockersCard';
+import RevenuePipeline from './components/RevenuePipeline';
+import LiveFeedCard from './components/LiveFeedCard';
 import { useDashboardData } from './api/useDashboardData';
 import { useAppContext } from '../../context/AppContext';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';

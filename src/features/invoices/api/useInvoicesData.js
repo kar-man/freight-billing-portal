@@ -2,6 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../../api/client';
 import { mockData } from '../../../data/mockData';
 
+/**
+ * Custom hook to fetch invoices data
+ * @returns {Object} The useQuery result object containing invoices data
+ */
 export const useInvoicesData = () => {
   return useQuery({
     queryKey: ['invoicesData'],

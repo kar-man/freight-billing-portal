@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 
-import PageHeader from '../../components/common/PageHeader';
-import FilterControls from '../../components/common/FilterControls';
-import StatCard from '../../components/common/StatCard';
-import StatusBadge from '../../components/common/StatusBadge';
-import LoadingState from '../../components/common/LoadingState';
-import ErrorState from '../../components/common/ErrorState';
+import PageHeader from '../../components/layout/PageHeader';
+import FilterControls from '../../components/filters/FilterControls';
+import StatCard from '../../components/ui/StatCard';
+import StatusBadge from '../../components/ui/StatusBadge';
+import LoadingState from '../../components/ui/LoadingState';
+import ErrorState from '../../components/ui/ErrorState';
 import { useInvoicesData } from './api/useInvoicesData';
 import { useAppContext } from '../../context/AppContext';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';

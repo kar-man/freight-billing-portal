@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MoreHorizontal } from 'lucide-react';
 
-import StatusBadge from '../../../components/common/StatusBadge';
+import StatusBadge from '../../../components/ui/StatusBadge';
 
 const ClientCard = ({ client }) => (
     <motion.div className="bg-white/60 backdrop-blur-xl p-6 rounded-3xl shadow-xl shadow-gray-900/10 hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 flex flex-col border border-white/20">

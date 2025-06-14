@@ -1,5 +1,13 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { mockData } from '../data/mockData';
+import { ActionType } from '../types/context';
+
+/**
+ * @typedef {import('../types/context').AppState} AppState
+ * @typedef {import('../types/context').AppContextValue} AppContextValue
+ * @typedef {import('../types/context').Notification} Notification
+ * @typedef {import('../types/context').UserPreferences} UserPreferences
+ */
 
 // Initial state based on mockData
 const initialState = {
@@ -17,23 +25,16 @@ const initialState = {
   },
 };
 
-// Action types
-export const ActionTypes = {
-  UPDATE_DASHBOARD_DATA: 'UPDATE_DASHBOARD_DATA',
-  UPDATE_ORDERS_DATA: 'UPDATE_ORDERS_DATA',
-  UPDATE_INVOICES_DATA: 'UPDATE_INVOICES_DATA',
-  UPDATE_CLIENTS_DATA: 'UPDATE_CLIENTS_DATA',
-  UPDATE_REPORTS_DATA: 'UPDATE_REPORTS_DATA',
-  TOGGLE_THEME: 'TOGGLE_THEME',
-  ADD_NOTIFICATION: 'ADD_NOTIFICATION',
-  REMOVE_NOTIFICATION: 'REMOVE_NOTIFICATION',
-  UPDATE_USER_PREFERENCES: 'UPDATE_USER_PREFERENCES',
-};
+// Using ActionType enum from context.js
 
-// Reducer function
+/**
+ * @param {AppState} state
+ * @param {Object} action
+ * @returns {AppState}
+ */
 const appReducer = (state, action) => {
   switch (action.type) {
-    case ActionTypes.UPDATE_DASHBOARD_DATA:
+    case ActionType.UPDATE_DASHBOARD_DATA:
       return {
         ...state,
         dashboard: {
@@ -41,7 +42,7 @@ const appReducer = (state, action) => {
           ...action.payload,
         },
       };
-    case ActionTypes.UPDATE_ORDERS_DATA:
+    case ActionType.UPDATE_ORDERS_DATA:
       return {
         ...state,
         orders: {
@@ -49,7 +50,7 @@ const appReducer = (state, action) => {
           ...action.payload,
         },
       };
-    case ActionTypes.UPDATE_INVOICES_DATA:
+    case ActionType.UPDATE_INVOICES_DATA:
       return {
         ...state,
         invoices: {
@@ -57,7 +58,7 @@ const appReducer = (state, action) => {
           ...action.payload,
         },
       };
-    case ActionTypes.UPDATE_CLIENTS_DATA:
+    case ActionType.UPDATE_CLIENTS_DATA:
       return {
         ...state,
         clients: {
@@ -65,7 +66,7 @@ const appReducer = (state, action) => {
           ...action.payload,
         },
       };
-    case ActionTypes.UPDATE_REPORTS_DATA:
+    case ActionType.UPDATE_REPORTS_DATA:
       return {
         ...state,
         reports: {
@@ -73,24 +74,24 @@ const appReducer = (state, action) => {
           ...action.payload,
         },
       };
-    case ActionTypes.TOGGLE_THEME:
+    case ActionType.TOGGLE_THEME:
       return {
         ...state,
         theme: state.theme === 'light' ? 'dark' : 'light',
       };
-    case ActionTypes.ADD_NOTIFICATION:
+    case ActionType.ADD_NOTIFICATION:
       return {
         ...state,
         notifications: [...state.notifications, action.payload],
       };
-    case ActionTypes.REMOVE_NOTIFICATION:
+    case ActionType.REMOVE_NOTIFICATION:
       return {
         ...state,
         notifications: state.notifications.filter(
           (notification) => notification.id !== action.payload
         ),
       };
-    case ActionTypes.UPDATE_USER_PREFERENCES:
+    case ActionType.UPDATE_USER_PREFERENCES:
       return {
         ...state,
         userPreferences: {
@@ -104,53 +105,57 @@ const appReducer = (state, action) => {
 };
 
 // Create context
-const AppContext = createContext();
+const AppContext = createContext(undefined);
 
-// Provider component
+/**
+ * @param {Object} props
+ * @param {React.ReactNode} props.children
+ * @returns {JSX.Element}
+ */
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   // Action creators
   const updateDashboardData = (data) => {
-    dispatch({ type: ActionTypes.UPDATE_DASHBOARD_DATA, payload: data });
+    dispatch({ type: ActionType.UPDATE_DASHBOARD_DATA, payload: data });
   };
 
   const updateOrdersData = (data) => {
-    dispatch({ type: ActionTypes.UPDATE_ORDERS_DATA, payload: data });
+    dispatch({ type: ActionType.UPDATE_ORDERS_DATA, payload: data });
   };
 
   const updateInvoicesData = (data) => {
-    dispatch({ type: ActionTypes.UPDATE_INVOICES_DATA, payload: data });
+    dispatch({ type: ActionType.UPDATE_INVOICES_DATA, payload: data });
   };
 
   const updateClientsData = (data) => {
-    dispatch({ type: ActionTypes.UPDATE_CLIENTS_DATA, payload: data });
+    dispatch({ type: ActionType.UPDATE_CLIENTS_DATA, payload: data });
   };
 
   const updateReportsData = (data) => {
-    dispatch({ type: ActionTypes.UPDATE_REPORTS_DATA, payload: data });
+    dispatch({ type: ActionType.UPDATE_REPORTS_DATA, payload: data });
   };
 
   const toggleTheme = () => {
-    dispatch({ type: ActionTypes.TOGGLE_THEME });
+    dispatch({ type: ActionType.TOGGLE_THEME });
   };
 
   const addNotification = (notification) => {
     const id = Date.now().toString();
     dispatch({
-      type: ActionTypes.ADD_NOTIFICATION,
+      type: ActionType.ADD_NOTIFICATION,
       payload: { id, ...notification },
     });
     return id;
   };
 
   const removeNotification = (id) => {
-    dispatch({ type: ActionTypes.REMOVE_NOTIFICATION, payload: id });
+    dispatch({ type: ActionType.REMOVE_NOTIFICATION, payload: id });
   };
 
   const updateUserPreferences = (preferences) => {
     dispatch({
-      type: ActionTypes.UPDATE_USER_PREFERENCES,
+      type: ActionType.UPDATE_USER_PREFERENCES,
       payload: preferences,
     });
   };
@@ -172,7 +177,9 @@ export const AppProvider = ({ children }) => {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-// Custom hook for using the context
+/**
+ * @returns {AppContextValue}
+ */
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
