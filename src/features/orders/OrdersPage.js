@@ -1,18 +1,16 @@
-// This file is deprecated and should not be used.
-// The application now uses the component in src/features/orders/OrdersPage.js
-// This file is kept for reference during the refactoring.
-
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Eye } from 'lucide-react';
 
-import PageHeader from '../components/PageHeader';
-import FilterControls from '../components/FilterControls';
-import StatCard from '../components/StatCard';
-import StatusBadge from '../components/StatusBadge';
-import { useOrdersData } from '../api/hooks';
-import { useAppContext } from '../context/AppContext';
-import { containerVariants, itemVariants } from '../utils/animationVariants';
+import PageHeader from '../../components/common/PageHeader';
+import FilterControls from '../../components/common/FilterControls';
+import StatCard from '../../components/common/StatCard';
+import StatusBadge from '../../components/common/StatusBadge';
+import LoadingState from '../../components/common/LoadingState';
+import ErrorState from '../../components/common/ErrorState';
+import { useOrdersData } from './api/useOrdersData';
+import { useAppContext } from '../../context/AppContext';
+import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const OrdersPage = () => {
     const { data, isLoading, error } = useOrdersData();
@@ -27,21 +25,12 @@ const OrdersPage = () => {
 
     // Loading state
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-blue-500"></div>
-            </div>
-        );
+        return <LoadingState />;
     }
 
     // Error state
     if (error) {
-        return (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
-                <p className="font-medium">Error loading orders data</p>
-                <p className="text-sm">{error.message}</p>
-            </div>
-        );
+        return <ErrorState title="Error loading orders data" message={error.message} />;
     }
 
     // Use data from global state or fallback to API data

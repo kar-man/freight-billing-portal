@@ -1,16 +1,14 @@
-// This file is deprecated and should not be used.
-// The application now uses the component in src/features/reports/ReportsPage.js
-// This file is kept for reference during the refactoring.
-
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronDown, FileOutput, BarChart2, PieChart } from 'lucide-react';
 
-import PageHeader from '../components/PageHeader';
-import StatCard from '../components/StatCard';
-import { useReportsData } from '../api/hooks';
-import { useAppContext } from '../context/AppContext';
-import { containerVariants, itemVariants } from '../utils/animationVariants';
+import PageHeader from '../../components/common/PageHeader';
+import StatCard from '../../components/common/StatCard';
+import LoadingState from '../../components/common/LoadingState';
+import ErrorState from '../../components/common/ErrorState';
+import { useReportsData } from './api/useReportsData';
+import { useAppContext } from '../../context/AppContext';
+import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const ReportsPage = () => {
     const { data, isLoading, error } = useReportsData();
@@ -25,21 +23,12 @@ const ReportsPage = () => {
 
     // Loading state
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-blue-500"></div>
-            </div>
-        );
+        return <LoadingState />;
     }
 
     // Error state
     if (error) {
-        return (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
-                <p className="font-medium">Error loading reports data</p>
-                <p className="text-sm">{error.message}</p>
-            </div>
-        );
+        return <ErrorState title="Error loading reports data" message={error.message} />;
     }
 
     // Use data from global state or fallback to API data

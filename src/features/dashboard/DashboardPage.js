@@ -1,18 +1,16 @@
-// This file is deprecated and should not be used.
-// The application now uses the component in src/features/dashboard/DashboardPage.js
-// This file is kept for reference during the refactoring.
-
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-import PageHeader from '../components/PageHeader';
-import StatCard from '../components/StatCard';
-import BillingBlockersCard from '../components/BillingBlockersCard';
-import RevenuePipeline from '../components/RevenuePipeline';
-import LiveFeedCard from '../components/LiveFeedCard';
-import { useDashboardData } from '../api/hooks';
-import { useAppContext } from '../context/AppContext';
-import { containerVariants, itemVariants } from '../utils/animationVariants';
+import PageHeader from '../../components/common/PageHeader';
+import StatCard from '../../components/common/StatCard';
+import LoadingState from '../../components/common/LoadingState';
+import ErrorState from '../../components/common/ErrorState';
+import BillingBlockersCard from '../../components/dashboard/BillingBlockersCard';
+import RevenuePipeline from '../../components/dashboard/RevenuePipeline';
+import LiveFeedCard from '../../components/dashboard/LiveFeedCard';
+import { useDashboardData } from './api/useDashboardData';
+import { useAppContext } from '../../context/AppContext';
+import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const DashboardPage = () => {
     const { data, isLoading, error } = useDashboardData();
@@ -27,21 +25,12 @@ const DashboardPage = () => {
 
     // Loading state
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-blue-500"></div>
-            </div>
-        );
+        return <LoadingState />;
     }
 
     // Error state
     if (error) {
-        return (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
-                <p className="font-medium">Error loading dashboard data</p>
-                <p className="text-sm">{error.message}</p>
-            </div>
-        );
+        return <ErrorState title="Error loading dashboard data" message={error.message} />;
     }
 
     // Use data from global state or fallback to API data

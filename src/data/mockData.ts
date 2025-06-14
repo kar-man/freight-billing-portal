@@ -1,8 +1,13 @@
 import { 
     ShoppingCart, FileText, FileCheck2, DollarSign, 
     PackageCheck, Truck, Clock, PackageX, AlertCircle, 
-    Users, TrendingUp, Package2, CheckCircle
+    Users, TrendingUp, Package2
 } from 'lucide-react';
+import { Status } from '../types/common';
+import { Order } from '../types/orders';
+import { Invoice } from '../types/invoices';
+import { Client } from '../types/clients';
+import { OrdersData, InvoicesData, ClientsData } from '../types/context';
 
 export const mockData = {
     dashboard: {
@@ -91,11 +96,11 @@ export const mockData = {
             { id: 10, type: 'invoice_overdue', description: '$9,450 in invoices now overdue by 45+ days', timestamp: '3 days ago', icon: 'Clock', iconColor: 'orange' },
         ],
         recentOrders: [
-            { id: 'ORD-2024-001', client: 'Acme Corp', status: 'Delivered', amount: '$15,750.00', date: 'Jan 15, 2024' },
-            { id: 'ORD-2024-002', client: 'Global Logistics Inc', status: 'In Transit', amount: '$28,900.50', date: 'Jan 14, 2024' },
-            { id: 'ORD-2024-003', client: 'Supply Chain Solutions', status: 'Pending', amount: '$12,300.75', date: 'Jan 13, 2024' },
-            { id: 'ORD-2024-004', client: 'Metro Distribution', status: 'Delivered', amount: '$45,200.00', date: 'Jan 12, 2024' },
-            { id: 'ORD-2024-005', client: 'Freight Masters', status: 'Cancelled', amount: '$8,750.25', date: 'Jan 11, 2024' },
+            { id: 'ORD-2024-001', client: 'Acme Corp', status: 'Delivered' as Status, amount: '$15,750.00', date: 'Jan 15, 2024' },
+            { id: 'ORD-2024-002', client: 'Global Logistics Inc', status: 'In Transit' as Status, amount: '$28,900.50', date: 'Jan 14, 2024' },
+            { id: 'ORD-2024-003', client: 'Supply Chain Solutions', status: 'Pending' as Status, amount: '$12,300.75', date: 'Jan 13, 2024' },
+            { id: 'ORD-2024-004', client: 'Metro Distribution', status: 'Delivered' as Status, amount: '$45,200.00', date: 'Jan 12, 2024' },
+            { id: 'ORD-2024-005', client: 'Freight Masters', status: 'Cancelled' as Status, amount: '$8,750.25', date: 'Jan 11, 2024' },
         ],
     },
     orders: {
@@ -106,13 +111,13 @@ export const mockData = {
             { title: 'Cancelled', value: '23', trend: { value: '15.7%', isPositive: false }, icon: PackageX, iconColor: 'red' },
         ],
         allOrders: [
-             { id: 'ORD-2024-001', client: 'Acme Corp', status: 'Delivered', amount: '$15,750.00', date: 'Jan 15, 2024' },
-            { id: 'ORD-2024-002', client: 'Global Logistics Inc', status: 'In Transit', amount: '$28,900.50', date: 'Jan 14, 2024' },
-            { id: 'ORD-2024-003', client: 'Supply Chain Solutions', status: 'Pending', amount: '$12,300.75', date: 'Jan 13, 2024' },
-            { id: 'ORD-2024-004', client: 'Metro Distribution', status: 'Delivered', amount: '$45,200.00', date: 'Jan 12, 2024' },
-            { id: 'ORD-2024-005', client: 'Freight Masters', status: 'Cancelled', amount: '$8,750.25', date: 'Jan 11, 2024' },
-        ],
-    },
+            { id: 'ORD-2024-001', client: 'Acme Corp', status: 'Delivered' as Status, amount: '$15,750.00', date: 'Jan 15, 2024' },
+            { id: 'ORD-2024-002', client: 'Global Logistics Inc', status: 'In Transit' as Status, amount: '$28,900.50', date: 'Jan 14, 2024' },
+            { id: 'ORD-2024-003', client: 'Supply Chain Solutions', status: 'Pending' as Status, amount: '$12,300.75', date: 'Jan 13, 2024' },
+            { id: 'ORD-2024-004', client: 'Metro Distribution', status: 'Delivered' as Status, amount: '$45,200.00', date: 'Jan 12, 2024' },
+            { id: 'ORD-2024-005', client: 'Freight Masters', status: 'Cancelled' as Status, amount: '$8,750.25', date: 'Jan 11, 2024' },
+        ] as Order[],
+    } as OrdersData,
     invoices: {
         stats: [
             { title: 'Paid', value: '1,158', subtitle: '$2,847,650', trend: { value: '15.3%', isPositive: true }, icon: FileCheck2, iconColor: 'green' },
@@ -121,13 +126,13 @@ export const mockData = {
             { title: 'Draft', value: '45', subtitle: '$234,560', trend: { value: '22.1%', isPositive: true }, icon: FileText, iconColor: 'gray' },
         ],
         allInvoices: [
-            { id: 'INV-2024-001', client: 'Acme Corp', status: 'Paid', amount: '$15,750.00', dueDate: 'Jan 15, 2024' },
-            { id: 'INV-2024-002', client: 'Global Logistics Inc', status: 'Outstanding', amount: '$28,900.50', dueDate: 'Jan 20, 2024', overdue: true },
-            { id: 'INV-2024-003', client: 'Supply Chain Solutions', status: 'Overdue', amount: '$12,300.75', dueDate: 'Jan 10, 2024', overdue: true },
-            { id: 'INV-2024-004', client: 'Metro Distribution', status: 'Paid', amount: '$45,200.00', dueDate: 'Jan 18, 2024' },
-            { id: 'INV-2024-005', client: 'Freight Masters', status: 'Draft', amount: '$8,750.25', dueDate: 'Jan 25, 2024' },
-        ],
-    },
+            { id: 'INV-2024-001', client: 'Acme Corp', status: 'Paid' as Status, amount: '$15,750.00', dueDate: 'Jan 15, 2024' },
+            { id: 'INV-2024-002', client: 'Global Logistics Inc', status: 'Outstanding' as Status, amount: '$28,900.50', dueDate: 'Jan 20, 2024', overdue: true },
+            { id: 'INV-2024-003', client: 'Supply Chain Solutions', status: 'Overdue' as Status, amount: '$12,300.75', dueDate: 'Jan 10, 2024', overdue: true },
+            { id: 'INV-2024-004', client: 'Metro Distribution', status: 'Paid' as Status, amount: '$45,200.00', dueDate: 'Jan 18, 2024' },
+            { id: 'INV-2024-005', client: 'Freight Masters', status: 'Draft' as Status, amount: '$8,750.25', dueDate: 'Jan 25, 2024' },
+        ] as Invoice[],
+    } as InvoicesData,
     clients: {
         stats: [
             { title: 'Total Clients', value: '6', subtitle: '5 active • 1 inactive', icon: Users, iconColor: 'blue' },
@@ -136,11 +141,11 @@ export const mockData = {
             { title: 'Avg Revenue', value: '$692,000', subtitle: 'Per client', icon: TrendingUp, iconColor: 'orange' },
         ],
         allClients: [
-            { initials: 'AC', name: 'Acme Corporation', industry: 'Manufacturing', location: 'New York, NY', status: 'Active', totalOrders: 247, totalRevenue: '$1,250,000', lastOrder: 'Jan 15, 2024' },
-            { initials: 'GL', name: 'Global Logistics Inc', industry: 'Logistics', location: 'Los Angeles, CA', status: 'Active', totalOrders: 189, totalRevenue: '$890,000', lastOrder: 'Jan 14, 2024' },
-            { initials: 'SC', name: 'Supply Chain Solutions', industry: 'Supply Chain', location: 'Chicago, IL', status: 'Active', totalOrders: 156, totalRevenue: '$675,000', lastOrder: 'Jan 13, 2024' },
-        ]
-    },
+            { initials: 'AC', name: 'Acme Corporation', industry: 'Manufacturing', location: 'New York, NY', status: 'Active' as Status, totalOrders: 247, totalRevenue: '$1,250,000', lastOrder: 'Jan 15, 2024' },
+            { initials: 'GL', name: 'Global Logistics Inc', industry: 'Logistics', location: 'Los Angeles, CA', status: 'Active' as Status, totalOrders: 189, totalRevenue: '$890,000', lastOrder: 'Jan 14, 2024' },
+            { initials: 'SC', name: 'Supply Chain Solutions', industry: 'Supply Chain', location: 'Chicago, IL', status: 'Active' as Status, totalOrders: 156, totalRevenue: '$675,000', lastOrder: 'Jan 13, 2024' },
+        ] as Client[],
+    } as ClientsData,
     reports: {
         stats: [
             { title: 'Monthly Revenue', value: '$2,847,650', subtitle: 'Current month', trend: { value: '18.7%', isPositive: true }, icon: DollarSign, iconColor: 'purple' },

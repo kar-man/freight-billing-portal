@@ -1,17 +1,15 @@
-// This file is deprecated and should not be used.
-// The application now uses the component in src/features/clients/ClientsPage.js
-// This file is kept for reference during the refactoring.
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-import PageHeader from '../components/PageHeader';
-import FilterControls from '../components/FilterControls';
-import StatCard from '../components/StatCard';
-import ClientCard from '../components/ClientCard';
-import { useClientsData } from '../api/hooks';
-import { useAppContext } from '../context/AppContext';
-import { containerVariants, itemVariants } from '../utils/animationVariants';
+import PageHeader from '../../components/common/PageHeader';
+import FilterControls from '../../components/common/FilterControls';
+import StatCard from '../../components/common/StatCard';
+import LoadingState from '../../components/common/LoadingState';
+import ErrorState from '../../components/common/ErrorState';
+import ClientCard from './components/ClientCard';
+import { useClientsData } from './api/useClientsData';
+import { useAppContext } from '../../context/AppContext';
+import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const ClientsPage = () => { 
     const [viewMode, setViewMode] = useState('grid');
@@ -27,21 +25,12 @@ const ClientsPage = () => {
 
     // Loading state
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-blue-500"></div>
-            </div>
-        );
+        return <LoadingState />;
     }
 
     // Error state
     if (error) {
-        return (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
-                <p className="font-medium">Error loading clients data</p>
-                <p className="text-sm">{error.message}</p>
-            </div>
-        );
+        return <ErrorState title="Error loading clients data" message={error.message} />;
     }
 
     // Use data from global state or fallback to API data
@@ -68,8 +57,16 @@ const ClientsPage = () => {
                     <h2 className="text-xl font-semibold text-gray-800">All Clients</h2>
                     <p className="text-sm font-medium text-gray-500">Showing {safeData.allClients.length} of {safeData.allClients.length} clients</p>
                 </div>
-                <motion.div className={`grid gap-6 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'}`} variants={containerVariants} key={viewMode}>
-                    {safeData.allClients.map((client) => <ClientCard key={client.name} client={client} />)}
+                <motion.div 
+                    className={`grid gap-6 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'}`} 
+                    variants={containerVariants}
+                    transition={{ staggerChildren: 0.05 }} // Reduce stagger time
+                >
+                    {safeData.allClients.map((client) => (
+                        <motion.div key={client.name} variants={itemVariants} transition={{ duration: 0.2 }}>
+                            <ClientCard client={client} />
+                        </motion.div>
+                    ))}
                 </motion.div>
             </motion.div>
         </motion.div> 
