@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 import PageHeader from '../../components/layout/PageHeader';
@@ -8,20 +8,11 @@ import ErrorState from '../../components/ui/ErrorState';
 import BillingBlockersCard from './components/BillingBlockersCard';
 import RevenuePipeline from './components/RevenuePipeline';
 import LiveFeedCard from './components/LiveFeedCard';
-import { useDashboardData } from '../../api/hooks';
-import { useDashboardContext } from '../../context/DashboardContext';
+import { useDashboardStore } from './api/useDashboardStore';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const DashboardPage = () => {
-    const { data, isLoading, error } = useDashboardData();
-    const { state, updateDashboardData } = useDashboardContext();
-
-    // Update global state when data changes
-    useEffect(() => {
-        if (data) {
-            updateDashboardData(data);
-        }
-    }, [data, updateDashboardData]);
+    const { dashboard, isLoading, error, refetch } = useDashboardStore();
 
     // Loading state
     if (isLoading) {
@@ -30,11 +21,15 @@ const DashboardPage = () => {
 
     // Error state
     if (error) {
-        return <ErrorState title="Error loading dashboard data" message={error.message} />;
+        return <ErrorState 
+            title="Error loading dashboard data" 
+            message={error} 
+            onRetry={refetch}
+        />;
     }
 
-    // Use data from global state or fallback to API data
-    const safeData = state.dashboard || data || { 
+    // Use data from store with fallback
+    const safeData = dashboard || { 
         stats: [], 
         actionableOrders: {}, 
         billingStatus: {}, 

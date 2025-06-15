@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
 
 import Header from './components/layout/Header';
 import DashboardPage from './features/dashboard/DashboardPage';
@@ -10,7 +11,6 @@ import ClientsPage from './features/clients/ClientsPage';
 import ReportsPage from './features/reports/ReportsPage';
 import ErrorBoundary from './components/ui/ErrorBoundary';
 import { pageVariants, pageTransition } from './utils/animationVariants';
-import { CombinedProvider } from './context/CombinedProvider';
 
 // Animated Page component to handle transitions for each page
 const AnimatedPage = ({ children }) => {
@@ -28,6 +28,10 @@ const AnimatedPage = ({ children }) => {
     );
 };
 
+AnimatedPage.propTypes = {
+    children: PropTypes.node.isRequired
+};
+
 // AnimatedRoutes component to handle page transitions
 const AnimatedRoutes = () => {
     const location = useLocation();
@@ -38,7 +42,7 @@ const AnimatedRoutes = () => {
             <Header isMenuOpen={isMenuOpen} setMenuOpen={setMenuOpen} />
             <main className="max-w-screen-2xl mx-auto p-4 sm:p-6 lg:p-8">
                 <AnimatePresence mode="wait" initial={false}>
-                    <Routes key={location.pathname} location={location}>
+                    <Routes location={location}>
                         <Route path="/" element={
                             <ErrorBoundary fallbackMessage="Dashboard is temporarily unavailable">
                                 <AnimatedPage>
@@ -90,12 +94,10 @@ const AnimatedRoutes = () => {
 
 export default function App() {
     return (
-        <CombinedProvider>
-            <BrowserRouter>
-                <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 font-sans antialiased">
-                    <AnimatedRoutes />
-                </div>
-            </BrowserRouter>
-        </CombinedProvider>
+        <BrowserRouter>
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 font-sans antialiased">
+                <AnimatedRoutes />
+            </div>
+        </BrowserRouter>
     );
 }

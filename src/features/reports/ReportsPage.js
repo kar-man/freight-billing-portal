@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronDown, FileOutput, BarChart2, PieChart } from 'lucide-react';
 
@@ -6,20 +6,11 @@ import PageHeader from '../../components/layout/PageHeader';
 import StatCard from '../../components/ui/StatCard';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useReportsData } from '../../api/hooks';
-import { useReportsContext } from '../../context/ReportsContext';
+import { useReportsStore } from './api/useReportsStore';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const ReportsPage = () => {
-    const { data, isLoading, error } = useReportsData();
-    const { state, updateReportsData } = useReportsContext();
-
-    // Update global state when data changes
-    useEffect(() => {
-        if (data) {
-            updateReportsData(data);
-        }
-    }, [data, updateReportsData]);
+    const { reports, isLoading, error, refetch } = useReportsStore();
 
     // Loading state
     if (isLoading) {
@@ -28,11 +19,15 @@ const ReportsPage = () => {
 
     // Error state
     if (error) {
-        return <ErrorState title="Error loading reports data" message={error.message} />;
+        return <ErrorState 
+            title="Error loading reports data" 
+            message={error} 
+            onRetry={refetch}
+        />;
     }
 
-    // Use data from global state or fallback to API data
-    const safeData = state.reports || data || { 
+    // Use data from store with fallback
+    const safeData = reports || { 
         stats: [], 
         revenueTrends: [],
         orderStatusDistribution: [],

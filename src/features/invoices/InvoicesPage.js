@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 
@@ -8,20 +8,11 @@ import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useInvoicesData } from '../../api/hooks';
-import { useInvoicesContext } from '../../context/InvoicesContext';
+import { useInvoicesStore } from './api/useInvoicesStore';
 import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const InvoicesPage = () => {
-    const { data, isLoading, error } = useInvoicesData();
-    const { state, updateInvoicesData } = useInvoicesContext();
-
-    // Update global state when data changes
-    useEffect(() => {
-        if (data) {
-            updateInvoicesData(data);
-        }
-    }, [data, updateInvoicesData]);
+    const { invoices, isLoading, error, refetch } = useInvoicesStore();
 
     // Loading state
     if (isLoading) {
@@ -30,11 +21,15 @@ const InvoicesPage = () => {
 
     // Error state
     if (error) {
-        return <ErrorState title="Error loading invoices data" message={error.message} />;
+        return <ErrorState 
+            title="Error loading invoices data" 
+            message={error} 
+            onRetry={refetch}
+        />;
     }
 
-    // Use data from global state or fallback to API data
-    const safeData = state.invoices || data || { 
+    // Use data from store with fallback
+    const safeData = invoices || { 
         stats: [], 
         allInvoices: [] 
     };

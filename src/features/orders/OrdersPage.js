@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Eye } from 'lucide-react';
 
@@ -8,20 +8,11 @@ import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useOrdersData } from '../../api/hooks';
-import { useOrdersContext } from '../../context/OrdersContext';
+import { useOrdersStore } from './api/useOrdersStore';
 import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const OrdersPage = () => {
-    const { data, isLoading, error } = useOrdersData();
-    const { state, updateOrdersData } = useOrdersContext();
-
-    // Update global state when data changes
-    useEffect(() => {
-        if (data) {
-            updateOrdersData(data);
-        }
-    }, [data, updateOrdersData]);
+    const { orders, isLoading, error, refetch } = useOrdersStore();
 
     // Loading state
     if (isLoading) {
@@ -30,11 +21,15 @@ const OrdersPage = () => {
 
     // Error state
     if (error) {
-        return <ErrorState title="Error loading orders data" message={error.message} />;
+        return <ErrorState 
+            title="Error loading orders data" 
+            message={error} 
+            onRetry={refetch}
+        />;
     }
 
-    // Use data from global state or fallback to API data
-    const safeData = state.orders || data || { stats: [], allOrders: [] };
+    // Use data from store with fallback
+    const safeData = orders || { stats: [], allOrders: [] };
 
     return (
         <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="hidden">

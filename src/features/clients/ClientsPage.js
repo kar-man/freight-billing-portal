@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 import PageHeader from '../../components/layout/PageHeader';
@@ -7,21 +7,12 @@ import StatCard from '../../components/ui/StatCard';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
 import ClientCard from './components/ClientCard';
-import { useClientsData } from '../../api/hooks';
-import { useClientsContext } from '../../context/ClientsContext';
+import { useClientsStore } from './api/useClientsStore';
 import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const ClientsPage = () => { 
     const [viewMode, setViewMode] = useState('grid');
-    const { data, isLoading, error } = useClientsData();
-    const { state, updateClientsData } = useClientsContext();
-
-    // Update global state when data changes
-    useEffect(() => {
-        if (data) {
-            updateClientsData(data);
-        }
-    }, [data, updateClientsData]);
+    const { clients, isLoading, error, refetch } = useClientsStore();
 
     // Loading state
     if (isLoading) {
@@ -30,11 +21,15 @@ const ClientsPage = () => {
 
     // Error state
     if (error) {
-        return <ErrorState title="Error loading clients data" message={error.message} />;
+        return <ErrorState 
+            title="Error loading clients data" 
+            message={error} 
+            onRetry={refetch}
+        />;
     }
 
-    // Use data from global state or fallback to API data
-    const safeData = state.clients || data || { 
+    // Use data from store with fallback
+    const safeData = clients || { 
         stats: [], 
         allClients: [] 
     };
