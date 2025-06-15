@@ -1,13 +1,27 @@
 import React from 'react';
 import { Search, Filter, ChevronDown, List, LayoutGrid } from 'lucide-react';
 
+/**
+ * @typedef {Object} FilterControlsProps
+ * @property {string} searchPlaceholder - Placeholder text for the search input
+ * @property {string} [filterLabel="All"] - Label for the filter button
+ * @property {boolean} [showViewToggle=false] - Whether to show the view toggle buttons
+ * @property {string} [viewMode] - Current view mode ('list' or 'grid')
+ * @property {Function} [setViewMode] - Function to set the view mode
+ */
+
+/**
+ * Filter controls component with search, filter, and view toggle
+ * @param {FilterControlsProps} props - Component props
+ * @returns {JSX.Element} Rendered component
+ */
 const FilterControls = ({ searchPlaceholder, filterLabel = "All", showViewToggle = false, viewMode, setViewMode }) => (
     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
         <div className="relative flex-grow">
-            <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none">
+            <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none z-10">
                 <Search size={20} />
             </div>
-            <input type="text" placeholder={searchPlaceholder} className="w-full pl-11 pr-4 py-2.5 text-sm placeholder-gray-400 bg-white/60 backdrop-blur-xl border border-white/30 rounded-xl shadow-md shadow-gray-900/5 focus:outline-none focus:ring-2 focus:ring-gray-900/50 focus:border-white/50 transition-all" />
+            <input type="text" placeholder={searchPlaceholder} className="w-full pl-11 pr-4 py-2.5 text-sm placeholder-gray-400 bg-white/60 backdrop-blur-xl border border-white/30 rounded-xl shadow-md shadow-gray-900/5 focus:outline-none focus:ring-2 focus:ring-gray-900/50 focus:border-white/50 transition-all relative z-0" />
         </div>
         <div className="flex items-center space-x-2">
             <button className="flex items-center justify-center bg-white/60 backdrop-blur-xl border border-white/30 rounded-xl px-4 py-2.5 text-sm text-gray-700 font-medium shadow-md shadow-gray-900/5 hover:bg-white/80 hover:text-gray-800 hover:backdrop-blur-lg hover:shadow-sm hover:shadow-gray-900/5 transition-all duration-200">

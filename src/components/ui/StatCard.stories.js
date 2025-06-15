@@ -1,4 +1,3 @@
-import React from 'react';
 import { Package2, DollarSign, Users, ShoppingCart } from 'lucide-react';
 import StatCard from './StatCard';
 
