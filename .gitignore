@@ -3,7 +3,7 @@
 /.idea
 /.pnp
 .pnp.js
-/.gitignore
+
 # testing
 /coverage
 

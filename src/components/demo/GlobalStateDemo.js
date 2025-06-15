@@ -1,8 +1,18 @@
 import React from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useUIContext } from '../../context/UIContext';
+import { useDashboardContext } from '../../context/DashboardContext';
+import { useOrdersContext } from '../../context/OrdersContext';
+import { useInvoicesContext } from '../../context/InvoicesContext';
+import { useClientsContext } from '../../context/ClientsContext';
+import { useReportsContext } from '../../context/ReportsContext';
 
 const GlobalStateDemo = () => {
-  const { state, toggleTheme, addNotification, removeNotification } = useAppContext();
+  const { state: uiState, toggleTheme, addNotification, removeNotification } = useUIContext();
+  const { state: dashboardState } = useDashboardContext();
+  const { state: ordersState } = useOrdersContext();
+  const { state: invoicesState } = useInvoicesContext();
+  const { state: clientsState } = useClientsContext();
+  const { state: reportsState } = useReportsContext();
 
   const handleAddNotification = () => {
     const id = addNotification({
@@ -11,7 +21,7 @@ const GlobalStateDemo = () => {
       type: 'info',
       timestamp: new Date().toISOString(),
     });
-    
+
     // Auto-remove after 3 seconds
     setTimeout(() => {
       removeNotification(id);
@@ -21,9 +31,9 @@ const GlobalStateDemo = () => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mt-4">
       <h3 className="text-lg font-semibold text-gray-800 mb-2">Global State Demo</h3>
-      
+
       <div className="mb-4">
-        <p className="text-sm text-gray-600 mb-2">Current theme: <span className="font-medium">{state.theme}</span></p>
+        <p className="text-sm text-gray-600 mb-2">Current theme: <span className="font-medium">{uiState.theme}</span></p>
         <button 
           onClick={toggleTheme}
           className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
@@ -31,9 +41,9 @@ const GlobalStateDemo = () => {
           Toggle Theme
         </button>
       </div>
-      
+
       <div className="mb-4">
-        <p className="text-sm text-gray-600 mb-2">Notifications: <span className="font-medium">{state.notifications.length}</span></p>
+        <p className="text-sm text-gray-600 mb-2">Notifications: <span className="font-medium">{uiState.notifications.length}</span></p>
         <button 
           onClick={handleAddNotification}
           className="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors"
@@ -41,15 +51,15 @@ const GlobalStateDemo = () => {
           Add Test Notification
         </button>
       </div>
-      
+
       <div>
         <p className="text-sm text-gray-600 mb-2">Data Summary:</p>
         <ul className="text-xs text-gray-500 space-y-1">
-          <li>Dashboard Stats: {state.dashboard?.stats?.length || 0} items</li>
-          <li>Orders: {state.orders?.allOrders?.length || 0} items</li>
-          <li>Invoices: {state.invoices?.allInvoices?.length || 0} items</li>
-          <li>Clients: {state.clients?.allClients?.length || 0} items</li>
-          <li>Reports: {state.reports?.stats?.length || 0} stats</li>
+          <li>Dashboard Stats: {dashboardState?.stats?.length || 0} items</li>
+          <li>Orders: {ordersState?.allOrders?.length || 0} items</li>
+          <li>Invoices: {invoicesState?.allInvoices?.length || 0} items</li>
+          <li>Clients: {clientsState?.allClients?.length || 0} items</li>
+          <li>Reports: {reportsState?.stats?.length || 0} stats</li>
         </ul>
       </div>
     </div>

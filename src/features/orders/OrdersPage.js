@@ -8,13 +8,13 @@ import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useOrdersData } from './api/useOrdersData';
-import { useAppContext } from '../../context/AppContext';
-import { containerVariants, itemVariants } from '../../utils/animationVariants';
+import { useOrdersData } from '../../api/hooks';
+import { useOrdersContext } from '../../context/OrdersContext';
+import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const OrdersPage = () => {
     const { data, isLoading, error } = useOrdersData();
-    const { state, updateOrdersData } = useAppContext();
+    const { state, updateOrdersData } = useOrdersContext();
 
     // Update global state when data changes
     useEffect(() => {
@@ -37,9 +37,11 @@ const OrdersPage = () => {
     const safeData = state.orders || data || { stats: [], allOrders: [] };
 
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="hidden">
             <motion.div variants={itemVariants}>
                 <PageHeader title="Order Management" subtitle="Track and manage all logistics orders." />
+            </motion.div>
+            <motion.div variants={noFadeItemVariants}>
                 <FilterControls searchPlaceholder="Search orders by ID, client, or status..." filterLabel="All Orders" />
             </motion.div>
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={containerVariants}>

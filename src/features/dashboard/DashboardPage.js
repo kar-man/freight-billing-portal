@@ -8,13 +8,13 @@ import ErrorState from '../../components/ui/ErrorState';
 import BillingBlockersCard from './components/BillingBlockersCard';
 import RevenuePipeline from './components/RevenuePipeline';
 import LiveFeedCard from './components/LiveFeedCard';
-import { useDashboardData } from './api/useDashboardData';
-import { useAppContext } from '../../context/AppContext';
+import { useDashboardData } from '../../api/hooks';
+import { useDashboardContext } from '../../context/DashboardContext';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const DashboardPage = () => {
     const { data, isLoading, error } = useDashboardData();
-    const { state, updateDashboardData } = useAppContext();
+    const { state, updateDashboardData } = useDashboardContext();
 
     // Update global state when data changes
     useEffect(() => {
@@ -42,7 +42,7 @@ const DashboardPage = () => {
     };
 
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="hidden">
             <motion.div variants={itemVariants} className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                 <PageHeader title="Billing Dashboard" subtitle="Live overview of key financial metrics." />
             </motion.div>

@@ -6,8 +6,8 @@ export const pageVariants = {
 
 export const pageTransition = {
     type: 'tween',
-    ease: 'easeInOut',
-    duration: 0.3,
+    ease: 'linear',
+    duration: 0.2,
 };
 
 export const containerVariants = {
@@ -23,4 +23,10 @@ export const containerVariants = {
 export const itemVariants = {
       hidden: { y: 10, opacity: 0 }, // Reduced y offset from 20 to 10
       visible: { y: 0, opacity: 1, transition: { duration: 0.2, ease: 'easeOut' } }, // Reduced duration from 0.4 to 0.2, changed ease
+};
+
+// Variant for components that should not have opacity animation (like search bars)
+export const noFadeItemVariants = {
+      hidden: { y: 10, opacity: 1 }, // No opacity change, only position
+      visible: { y: 0, opacity: 1, transition: { duration: 0.2, ease: 'easeOut' } },
 };

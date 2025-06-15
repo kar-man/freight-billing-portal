@@ -6,13 +6,13 @@ import PageHeader from '../../components/layout/PageHeader';
 import StatCard from '../../components/ui/StatCard';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useReportsData } from './api/useReportsData';
-import { useAppContext } from '../../context/AppContext';
+import { useReportsData } from '../../api/hooks';
+import { useReportsContext } from '../../context/ReportsContext';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const ReportsPage = () => {
     const { data, isLoading, error } = useReportsData();
-    const { state, updateReportsData } = useAppContext();
+    const { state, updateReportsData } = useReportsContext();
 
     // Update global state when data changes
     useEffect(() => {
@@ -40,7 +40,7 @@ const ReportsPage = () => {
     };
 
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="hidden">
             <motion.div variants={itemVariants} className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <PageHeader title="Reports & Analytics" subtitle="Comprehensive insights into freight billing operations." />
                 <div className="flex items-center space-x-4 mt-4 md:mt-0">

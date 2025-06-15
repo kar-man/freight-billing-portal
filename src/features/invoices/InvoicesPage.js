@@ -8,13 +8,13 @@ import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useInvoicesData } from './api/useInvoicesData';
-import { useAppContext } from '../../context/AppContext';
-import { containerVariants, itemVariants } from '../../utils/animationVariants';
+import { useInvoicesData } from '../../api/hooks';
+import { useInvoicesContext } from '../../context/InvoicesContext';
+import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const InvoicesPage = () => {
     const { data, isLoading, error } = useInvoicesData();
-    const { state, updateInvoicesData } = useAppContext();
+    const { state, updateInvoicesData } = useInvoicesContext();
 
     // Update global state when data changes
     useEffect(() => {
@@ -40,9 +40,11 @@ const InvoicesPage = () => {
     };
 
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="hidden">
             <motion.div variants={itemVariants}>
                 <PageHeader title="Invoice Management" subtitle="Manage all billing and invoices." />
+            </motion.div>
+            <motion.div variants={noFadeItemVariants}>
                 <FilterControls searchPlaceholder="Search invoices by ID, client, or amount..." filterLabel="All Invoices" />
             </motion.div>
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={containerVariants}>

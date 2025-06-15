@@ -7,14 +7,14 @@ import StatCard from '../../components/ui/StatCard';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
 import ClientCard from './components/ClientCard';
-import { useClientsData } from './api/useClientsData';
-import { useAppContext } from '../../context/AppContext';
-import { containerVariants, itemVariants } from '../../utils/animationVariants';
+import { useClientsData } from '../../api/hooks';
+import { useClientsContext } from '../../context/ClientsContext';
+import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const ClientsPage = () => { 
     const [viewMode, setViewMode] = useState('grid');
     const { data, isLoading, error } = useClientsData();
-    const { state, updateClientsData } = useAppContext();
+    const { state, updateClientsData } = useClientsContext();
 
     // Update global state when data changes
     useEffect(() => {
@@ -40,9 +40,11 @@ const ClientsPage = () => {
     };
 
     return ( 
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="hidden">
             <motion.div variants={itemVariants}>
                 <PageHeader title="Client Management" subtitle="View and manage all client accounts." />
+            </motion.div>
+            <motion.div variants={noFadeItemVariants}>
                 <FilterControls searchPlaceholder="Search clients by name, industry, or location..." filterLabel="All Clients" showViewToggle={true} viewMode={viewMode} setViewMode={setViewMode} />
             </motion.div>
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={containerVariants}>
