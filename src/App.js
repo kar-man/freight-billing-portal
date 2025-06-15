@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -9,26 +8,9 @@ import OrdersPage from './features/orders/OrdersPage';
 import InvoicesPage from './features/invoices/InvoicesPage';
 import ClientsPage from './features/clients/ClientsPage';
 import ReportsPage from './features/reports/ReportsPage';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 import { pageVariants, pageTransition } from './utils/animationVariants';
-
-// Import context providers
-import { DashboardProvider } from './context/DashboardContext';
-import { OrdersProvider } from './context/OrdersContext';
-import { InvoicesProvider } from './context/InvoicesContext';
-import { ClientsProvider } from './context/ClientsContext';
-import { ReportsProvider } from './context/ReportsContext';
-import { UIProvider } from './context/UIContext';
-import { UserPreferencesProvider } from './context/UserPreferencesContext';
-
-// Create a client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
+import { CombinedProvider } from './context/CombinedProvider';
 
 // Animated Page component to handle transitions for each page
 const AnimatedPage = ({ children }) => {
@@ -58,34 +40,46 @@ const AnimatedRoutes = () => {
                 <AnimatePresence mode="wait" initial={false}>
                     <Routes key={location.pathname} location={location}>
                         <Route path="/" element={
-                            <AnimatedPage>
-                                <DashboardPage />
-                            </AnimatedPage>
+                            <ErrorBoundary fallbackMessage="Dashboard is temporarily unavailable">
+                                <AnimatedPage>
+                                    <DashboardPage />
+                                </AnimatedPage>
+                            </ErrorBoundary>
                         } />
                         <Route path="/dashboard" element={
-                            <AnimatedPage>
-                                <DashboardPage />
-                            </AnimatedPage>
+                            <ErrorBoundary fallbackMessage="Dashboard is temporarily unavailable">
+                                <AnimatedPage>
+                                    <DashboardPage />
+                                </AnimatedPage>
+                            </ErrorBoundary>
                         } />
                         <Route path="/orders" element={
-                            <AnimatedPage>
-                                <OrdersPage />
-                            </AnimatedPage>
+                            <ErrorBoundary fallbackMessage="Orders page is temporarily unavailable">
+                                <AnimatedPage>
+                                    <OrdersPage />
+                                </AnimatedPage>
+                            </ErrorBoundary>
                         } />
                         <Route path="/invoices" element={
-                            <AnimatedPage>
-                                <InvoicesPage />
-                            </AnimatedPage>
+                            <ErrorBoundary fallbackMessage="Invoices page is temporarily unavailable">
+                                <AnimatedPage>
+                                    <InvoicesPage />
+                                </AnimatedPage>
+                            </ErrorBoundary>
                         } />
                         <Route path="/clients" element={
-                            <AnimatedPage>
-                                <ClientsPage />
-                            </AnimatedPage>
+                            <ErrorBoundary fallbackMessage="Clients page is temporarily unavailable">
+                                <AnimatedPage>
+                                    <ClientsPage />
+                                </AnimatedPage>
+                            </ErrorBoundary>
                         } />
                         <Route path="/reports" element={
-                            <AnimatedPage>
-                                <ReportsPage />
-                            </AnimatedPage>
+                            <ErrorBoundary fallbackMessage="Reports page is temporarily unavailable">
+                                <AnimatedPage>
+                                    <ReportsPage />
+                                </AnimatedPage>
+                            </ErrorBoundary>
                         } />
                     </Routes>
                 </AnimatePresence>
@@ -96,26 +90,12 @@ const AnimatedRoutes = () => {
 
 export default function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <UIProvider>
-                <UserPreferencesProvider>
-                    <DashboardProvider>
-                        <OrdersProvider>
-                            <InvoicesProvider>
-                                <ClientsProvider>
-                                    <ReportsProvider>
-                                        <BrowserRouter>
-                                            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 font-sans antialiased">
-                                                <AnimatedRoutes />
-                                            </div>
-                                        </BrowserRouter>
-                                    </ReportsProvider>
-                                </ClientsProvider>
-                            </InvoicesProvider>
-                        </OrdersProvider>
-                    </DashboardProvider>
-                </UserPreferencesProvider>
-            </UIProvider>
-        </QueryClientProvider>
+        <CombinedProvider>
+            <BrowserRouter>
+                <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 font-sans antialiased">
+                    <AnimatedRoutes />
+                </div>
+            </BrowserRouter>
+        </CombinedProvider>
     );
 }
