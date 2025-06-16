@@ -107,7 +107,7 @@ Create a `.env` file in the root directory:
 
 ```env
 # 🔗 API Configuration
-REACT_APP_API_URL=http://localhost:3001/api
+REACT_APP_API_URL=http://localhost:3000/api
 
 # 🏗️ Build Configuration
 GENERATE_SOURCEMAP=false
@@ -315,7 +315,7 @@ npx serve -s build
 
 ### 📄 **License**
 
-<img src="public/assets/Janio-icon white.png" alt="Janio Logo" height="20" width="20" style="vertical-align: middle;" loading="lazy" width-original="642" height-original="642"> <strong style="color: white;">Janio</strong> - All rights reserved
+<img src="public/assets/Janio-icon white.png" alt="Janio Logo" style="height: 20px; width: 20px; vertical-align: middle;" loading="lazy"> <strong style="color: white;">Janio</strong> - All rights reserved
 
 ---
 
