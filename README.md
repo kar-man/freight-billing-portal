@@ -1,450 +1,324 @@
-# Freight Billing Portal
+<div style="text-align: center;">
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
-![License](https://img.shields.io/badge/license-Private-yellow.svg)
-![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg?logo=react)
-![Status](https://img.shields.io/badge/status-Development-orange.svg)
+# 🚢 Freight Billing Portal
 
-> A comprehensive web application for managing freight billing, orders, invoices, and client relationships for Janio's finance team.
+### *Modern React-based billing management system for freight operations*
 
-![Freight Billing Portal Screenshot](https://placeholder.com/screenshot.png)
+[![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.17-38B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Development](https://img.shields.io/badge/Status-Development-FFA500.svg?style=for-the-badge&logo=checkmarx&logoColor=white)](https://github.com)
 
-## Table of Contents
-
-- [Project Overview](#project-overview)
-- [Technical Information](#technical-information)
-- [Installation & Setup](#installation--setup)
-- [Usage Instructions](#usage-instructions)
-- [Development Information](#development-information)
-- [Configuration & Environment](#configuration--environment)
-- [Documentation & Resources](#documentation--resources)
-- [Support & Maintenance](#support--maintenance)
-- [Legal & Credits](#legal--credits)
-
-## Project Overview
-
-### About the Project
-
-The Freight Billing Portal is an internal web application designed to streamline and automate the freight billing process for Janio's finance team. It provides a centralized platform for managing orders, generating invoices, tracking payments, and maintaining client relationships.
-
-### Key Features
-
-- **Dashboard Analytics**: Real-time overview of billing metrics, outstanding invoices, and payment status
-- **Order Management**: Track, filter, and manage freight orders throughout their lifecycle
-- **Invoice Generation**: Automated creation and management of invoices based on order data
-- **Client Management**: Maintain client information, billing preferences, and relationship history
-- **Financial Reporting**: Generate comprehensive reports for financial analysis and decision-making
-- **User-friendly Interface**: Intuitive design with smooth transitions and responsive layout
-
-### Target Audience
-
-This application is specifically designed for Janio's finance team to manage freight billing operations efficiently. It serves various roles within the finance department, including:
-
-- Finance managers overseeing billing operations
-- Accounting staff processing invoices and payments
-- Financial analysts generating reports and insights
-- Client relationship managers handling billing inquiries
-
-## Technical Information
-
-### Tech Stack
-
-#### Frontend
-- **Framework**: React 18.3.1
-- **Routing**: React Router 6.20.0
-- **State Management**: Zustand 5.0.5
-- **Data Fetching**: SWR 2.3.3, TanStack React Query 5.80.7
-- **HTTP Client**: Axios 1.9.0
-- **UI/UX**: 
-  - TailwindCSS 3.4.17 for styling
-  - Framer Motion 11.2.10 for animations
-  - Lucide React 0.395.0 for icons
-- **Component Documentation**: Storybook 7.6.10
-
-#### Development Tools
-- **Build Tool**: Create React App (React Scripts 5.0.1)
-- **Code Quality**: 
-  - ESLint 8.57.1
-  - Prettier 3.5.3
-- **Testing**: Jest and React Testing Library
-
-### System Requirements
-
-- **Node.js**: v16.x or higher
-- **npm**: v8.x or higher
-- **Browser Support**: Modern browsers (Chrome, Firefox, Safari, Edge)
-- **Operating System**: Platform-independent (Windows, macOS, Linux)
-
-### Architecture Overview
-
-The application follows a modern React architecture with these key principles:
-
-1. **Feature-based Organization**: Code is organized by business domain features rather than technical concerns
-2. **Component-Driven Development**: UI is built from reusable components documented in Storybook
-3. **Client-Side Routing**: Single-page application with React Router
-4. **State Management**: Zustand for global state with minimal boilerplate
-5. **Data Fetching Strategy**: SWR and React Query for efficient data loading with caching
-
-#### State Management with Zustand
-
-We've migrated from React Context to Zustand for global state management. Zustand provides a simpler and more performant way to manage state with less boilerplate.
-
-```javascript
-// Example of using the Zustand store
-import { useAppStore } from './store';
-
-function MyComponent() {
-  // Select only what you need from the store
-  const clients = useAppStore((state) => state.clients);
-  const fetchClients = useAppStore((state) => state.fetchClients);
-
-  // Use the state and actions
-  return (
-    <button onClick={fetchClients}>
-      Load {clients.length} Clients
-    </button>
-  );
-}
-```
-
-#### Data Fetching with SWR
-
-We use SWR (stale-while-revalidate) for data fetching, which provides caching, revalidation, and other features out of the box.
-
-```javascript
-// Example of using SWR for data fetching
-import useSWR from 'swr';
-import { fetcher } from '../api/client';
-
-function useClientsData() {
-  const { data, error, isLoading, mutate } = useSWR('/clients', fetcher);
-
-  return {
-    clients: data || [],
-    isLoading,
-    isError: !!error,
-    error,
-    refreshClients: mutate
-  };
-}
-```
-
-#### Feature-Based Organization
-
-The codebase is organized by features, with each feature containing its own components, API hooks, and utilities:
-
-```
-src/
-├── features/
-│   └── feature-name/
-│       ├── components/
-│       ├── api/
-│       ├── utils/
-│       └── index.js
-├── store/
-├── api/
-├── utils/
-└── components/
-    └── ui/
-```
-
-#### Type Safety with JSDoc
-
-Type information is now provided through JSDoc comments. For example:
-
-```javascript
-/**
- * @typedef {'Active'|'Inactive'|'Pending'|'In Transit'|'Delivered'|'Paid'|'Outstanding'|'Overdue'|'Cancelled'|'Draft'|'Pricing'|'Operations'} Status
- */
-
-/**
- * @param {Object} props
- * @param {Status} props.status
- * @returns {JSX.Element}
- */
-function StatusBadge({ status }) {
-  // Implementation
-}
-```
-
-#### Main Application Pages
-
-- Dashboard: Overview of key metrics and recent activity
-- Orders: Management of freight orders and their status
-- Invoices: Generation and tracking of client invoices
-- Clients: Management of client information and relationships
-- Reports: Generation of financial and operational reports
-
-## Installation & Setup
-
-### Prerequisites
-
-Before setting up the project, ensure you have:
-
-- Node.js (v16.x or higher)
-- npm (v8.x or higher)
-- Git (for cloning the repository)
-
-### Step-by-Step Setup
-
-1. **Clone the Repository**:
-   ```bash
-   git clone [repository-url]
-   cd freight-billing-portal
-   ```
-
-2. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Set Up Environment Variables**:
-   Create a `.env` file in the root directory with the following variables:
-   ```
-   REACT_APP_API_URL=https://api.example.com
-   REACT_APP_ENV=development
-   ```
-
-4. **Start the Development Server**:
-   ```bash
-   npm start
-   ```
-
-5. **Access the Application**:
-   Open your browser and navigate to `http://localhost:3000`
-
-### Common Setup Issues
-
-- **Node Version Mismatch**: If you encounter errors during installation, verify your Node.js version with `node -v`
-- **Port Conflicts**: If port 3000 is already in use, the development server will prompt you to use a different port
-- **API Connection Issues**: Ensure the API URL in your `.env` file is correct and accessible
-
-## Component Documentation with Storybook
-
-This project uses Storybook for component documentation and development. Storybook provides a way to develop UI components in isolation, which can improve component reuse, testability, and development speed.
-
-### Running Storybook
-
-To start Storybook locally:
-
-```bash
-npm run storybook
-```
-
-This will start Storybook on port 6006. Open your browser and navigate to http://localhost:6006 to view the component documentation.
-
-### Building Storybook
-
-To build a static version of Storybook:
-
-```bash
-npm run build-storybook
-```
-
-This will create a static build of Storybook in the `storybook-static` directory, which can be deployed to a static hosting service.
-
-For more information about Storybook and how to add new component stories, see the [Storybook README](.storybook/README.md).
-
-## Usage Instructions
-
-### Running the Application
-
-1. Start the development server:
-   ```bash
-   npm start
-   ```
-
-2. Access the application at `http://localhost:3000`
-
-### Navigating the Application
-
-- **Dashboard**: View key metrics and recent activity
-- **Orders**: Manage freight orders, filter by status, and view details
-- **Invoices**: Generate, view, and manage client invoices
-- **Clients**: Add, edit, and manage client information
-- **Reports**: Generate and export financial reports
-
-### User Roles and Permissions
-
-The application supports different user roles with varying levels of access:
-
-- **Admin**: Full access to all features and settings
-- **Finance Manager**: Access to all financial data and reports
-- **Billing Specialist**: Focus on invoice generation and management
-- **Viewer**: Read-only access to data without edit capabilities
-
-### Test Accounts
-
-For development and testing purposes, use these credentials:
-
-- **Admin**: username: `admin@janio.com`, password: `admin123`
-- **Finance Manager**: username: `finance@janio.com`, password: `finance123`
-- **Viewer**: username: `viewer@janio.com`, password: `viewer123`
-
-## Development Information
-
-### Project Structure
-
-The codebase follows a feature-based organization:
-
-```
-src/
-├── features/            # Business domain features
-│   ├── dashboard/       # Dashboard feature
-│   │   ├── components/  # Dashboard-specific components
-│   │   ├── api/         # Data fetching hooks for dashboard
-│   │   └── DashboardPage.js
-│   ├── orders/          # Orders management feature
-│   ├── invoices/        # Invoice management feature
-│   ├── clients/         # Client management feature
-│   └── reports/         # Reporting feature
-├── components/          # Shared components
-│   ├── ui/              # UI components (buttons, inputs, etc.)
-│   └── layout/          # Layout components (header, sidebar, etc.)
-├── store/               # Zustand store definitions
-├── api/                 # API client and utilities
-├── utils/               # Utility functions and helpers
-├── App.js               # Main application component
-└── index.js             # Application entry point
-```
-
-### Coding Standards
-
-- **JavaScript**: ES6+ features with JSDoc for type documentation
-- **Component Structure**: Functional components with hooks
-- **State Management**: Zustand for global state, React hooks for local state
-- **Styling**: TailwindCSS utility classes with consistent patterns
-- **Error Handling**: Error boundaries for graceful failure handling
-
-### Testing
-
-Run tests with:
-
-```bash
-npm test
-```
-
-The project uses Jest and React Testing Library for:
-- Unit tests for utility functions
-- Component tests for UI behavior
-- Integration tests for feature workflows
-
-### Build and Deployment
-
-1. **Create Production Build**:
-   ```bash
-   npm run build
-   ```
-
-2. **Preview Production Build Locally**:
-   ```bash
-   npx serve -s build
-   ```
-
-3. **Deployment Process**:
-   The application is deployed through CI/CD pipeline to internal servers.
-
-## Configuration & Environment
-
-### Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `REACT_APP_API_URL` | Base URL for API requests | `https://api.example.com` |
-| `REACT_APP_ENV` | Environment name | `development` |
-| `REACT_APP_DEBUG` | Enable debug logging | `false` |
-
-### Environment Configurations
-
-The application supports multiple environments:
-
-- **Development**: Local development with hot reloading
-- **Staging**: Pre-production environment for testing
-- **Production**: Live environment for actual use
-
-## Documentation & Resources
-
-### Component Documentation
-
-The project uses Storybook for component documentation:
-
-1. Start Storybook:
-   ```bash
-   npm run storybook
-   ```
-
-2. Access Storybook at `http://localhost:6006`
-
-### API Documentation
-
-API endpoints are documented in the internal wiki. Key endpoints include:
-
-- `/api/orders` - Order management
-- `/api/invoices` - Invoice operations
-- `/api/clients` - Client information
-- `/api/reports` - Report generation
-
-### Additional Resources
-
-- [Internal Wiki](https://wiki.janio.internal/freight-billing-portal)
-- [Design System](https://design.janio.internal)
-- [API Documentation](https://api-docs.janio.internal)
-
-## Support & Maintenance
-
-### Known Limitations
-
-- The application currently supports only English language
-- Report exports are limited to PDF and Excel formats
-- Bulk operations are limited to 100 items at a time
-
-### Troubleshooting
-
-Common issues and solutions:
-
-- **Data Not Loading**: Check network connectivity and API status
-- **Slow Performance**: Try clearing browser cache or using Chrome for optimal performance
-- **Login Issues**: Ensure your account has the correct permissions
-
-### Support Channels
-
-For assistance, contact:
-
-- **Technical Issues**: IT Support at `it-support@janio.com`
-- **Feature Requests**: Product Team at `product@janio.com`
-- **Billing Questions**: Finance Team at `finance@janio.com`
-
-### Version History
-
-- **v0.1.0** (Current) - Initial development release
-  - Basic functionality for orders, invoices, and clients
-  - Dashboard with key metrics
-  - User authentication and authorization
-
-## Legal & Credits
-
-### License
-
-This project is proprietary software owned by Janio. All rights reserved.
-
-### Third-Party Libraries
-
-This project makes use of several open-source libraries, including but not limited to:
-
-- React (MIT License)
-- React Router (MIT License)
-- Zustand (MIT License)
-- SWR (MIT License)
-- TailwindCSS (MIT License)
-- Framer Motion (MIT License)
-
-Full attribution and licenses are available in the `LICENSE-3RD-PARTY.md` file.
-
-### Contributors
-
-- Janio Development Team
-- Janio Finance Department (Requirements and Testing)
+*Comprehensive order tracking • Invoice management • Client relationships • Financial reporting*
 
 ---
 
-© 2023-2024 Janio. All Rights Reserved.
+</div>
+
+## ✨ Features
+
+<table>
+<tr>
+<td style="width: 50%;">
+
+### 📊 **Dashboard Analytics**
+- 🎯 Real-time billing metrics & KPIs
+- 📈 Interactive revenue pipeline visualization
+- 🚫 Billing blockers tracking with month selection
+- 📡 Live activity feed & notifications
+
+### 🧾 **Invoice Management**
+- 💰 Complete invoice generation & tracking
+- 🔍 Status monitoring (Paid/Outstanding/Overdue/Draft)
+- ⬇️ One-click download functionality
+- ⚠️ Automated overdue highlighting system
+
+</td>
+<td style="width: 50%;">
+
+### 📦 **Order Operations**
+- 🚚 Full order lifecycle management
+- 🏷️ Smart status filtering & categorization
+- 🔎 Advanced searchable order database
+- ⚡ Real-time order tracking & updates
+
+### 👥 **Client Relations**
+- 👤 Comprehensive client profile management
+- 🔄 Flexible grid/list view switching
+- 📊 Performance metrics & analytics
+- 🌍 Industry & location tracking
+
+</td>
+</tr>
+</table>
+
+### 📈 **Advanced Reporting**
+> Interactive revenue trends • Order distribution analytics • Top-performing clients • Export functionality
+
+---
+
+## 🛠️ Tech Stack
+
+<div style="text-align: center;">
+
+| Frontend | State Management | Styling | Animation |
+|----------|------------------|---------|-----------|
+| ![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat-square&logo=react) | ![Zustand](https://img.shields.io/badge/Zustand-5.0.5-FF6B6B?style=flat-square) | ![Tailwind](https://img.shields.io/badge/Tailwind-3.4.17-38B2AC?style=flat-square&logo=tailwind-css) | ![Framer](https://img.shields.io/badge/Framer_Motion-11.2.10-0055FF?style=flat-square) |
+| ![Router](https://img.shields.io/badge/React_Router-6.20.0-CA4245?style=flat-square&logo=react-router) | ![SWR](https://img.shields.io/badge/SWR-2.3.3-000000?style=flat-square) | ![Design](https://img.shields.io/badge/Glass_Morphism-Custom-9333EA?style=flat-square) | ![Icons](https://img.shields.io/badge/Lucide_React-0.395.0-F56565?style=flat-square) |
+
+</div>
+
+---
+
+## 🚀 Quick Start
+
+<details>
+<summary><b>📋 Prerequisites</b></summary>
+
+```bash
+Node.js >= 16.x
+npm >= 8.x
+Modern browser (Chrome, Firefox, Safari, Edge)
+```
+
+</details>
+
+### 🏃‍♂️ **Installation**
+
+```bash
+# 📥 Clone the repository
+git clone [your-repo-url]
+cd billing-portal
+
+# 📦 Install dependencies
+npm install
+
+# 🚀 Start development server
+npm start
+```
+
+<div style="text-align: center;">
+<b>🌐 Application available at:</b> <code>http://localhost:3000</code>
+</div>
+
+### ⚙️ **Environment Configuration**
+
+Create a `.env` file in the root directory:
+
+```env
+# 🔗 API Configuration
+REACT_APP_API_URL=http://localhost:3001/api
+
+# 🏗️ Build Configuration
+GENERATE_SOURCEMAP=false
+```
+
+---
+
+## 🎨 Architecture
+
+<div style="text-align: center;">
+
+### 🏗️ **Feature-Based Architecture**
+
+</div>
+
+```
+📁 src/
+┣ 🎯 features/              # Business domain features
+┃ ┣ 📊 dashboard/           # Real-time metrics & analytics
+┃ ┣ 📦 orders/              # Order management system
+┃ ┣ 🧾 invoices/            # Invoice generation & tracking
+┃ ┣ 👥 clients/             # Client relationship management
+┃ ┗ 📈 reports/             # Financial reporting & analytics
+┣ 🧩 components/            # Reusable UI components
+┃ ┣ 🎨 ui/                  # Core components (StatCard, StatusBadge)
+┃ ┣ 🏠 layout/              # Layout components (Header, Navigation)
+┃ ┗ 🔍 filters/             # Search & filter components
+┣ 🔌 api/                   # API client & SWR configuration
+┣ 🗄️ store/                 # Zustand global state management
+┣ 🎨 theme/                 # Design tokens & styling system
+┗ 🛠️ utils/                 # Utility functions & helpers
+```
+
+### 🧠 **State Management Strategy**
+
+<table>
+<tr>
+<td style="width: 50%; text-align: center;">
+
+**🌐 Server State**
+<br>
+*SWR for data fetching & caching*
+<br>
+📡 Real-time synchronization
+<br>  
+🔄 Automatic revalidation
+<br>
+💾 Intelligent caching
+
+</td>
+<td style="width: 50%; text-align: center;">
+
+**💻 Client State**
+<br>
+*Zustand for UI state management*
+<br>
+🎨 Theme preferences
+<br>
+🔍 Filters & search
+<br>
+📱 UI interactions
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🎯 Development
+
+### 📝 **Available Scripts**
+
+| Command | Description | Usage |
+|---------|-------------|-------|
+| `npm start` | 🚀 Development server | Primary development |
+| `npm run build` | 🏗️ Production build | Deployment preparation |
+| `npm test` | 🧪 Run test suite | Quality assurance |
+| `npm run lint` | 🔍 Code quality check | Code review |
+| `npm run storybook` | 📚 Component docs | UI development |
+
+### 🎨 **Design System**
+
+<div style="text-align: center;">
+
+| Feature | Implementation |
+|---------|----------------|
+| **🌟 Glass Morphism** | Backdrop blur effects with transparency |
+| **🎨 Custom Tokens** | Centralized design system in `theme/` |
+| **📱 Responsive** | Mobile-first approach with breakpoints |
+| **🎭 Animations** | Smooth transitions via Framer Motion |
+| **🎯 Accessibility** | ARIA compliance and keyboard navigation |
+
+</div>
+
+---
+
+## 🔌 Data Integration
+
+<div style="text-align: center;">
+
+### 🔄 **Hybrid Data Strategy**
+
+</div>
+
+```mermaid
+graph TD
+    A[🚀 Application Start] --> B[📡 API Check]
+    B --> C{🌐 API Available?}
+    C -->|✅ Yes| D[📊 Live Data]
+    C -->|❌ No| E[🎭 Mock Data]
+    D --> F[💾 SWR Cache]
+    E --> F
+    F --> G[🎨 UI Render]
+```
+
+> **🎯 Current Status:** Development version primarily using mock data  
+> **🔗 API Ready:** Seamless integration when backend is available  
+> **⚡ Fallback:** Automatic mock data on network errors
+
+---
+
+## 📚 Component Library
+
+<div style="text-align: center;">
+
+### 🎨 **Storybook Integration**
+
+</div>
+
+```bash
+# 📖 Start component documentation
+npm run storybook
+
+# 🌐 Access at: http://localhost:6006
+```
+
+<div style="text-align: center;">
+<b>🎭 Interactive component playground • 📖 Documentation • 🎨 Design system</b>
+</div>
+
+---
+
+## 🏗️ Production
+
+### 🚀 **Build & Deploy**
+
+```bash
+# 🏗️ Create optimized build
+npm run build
+
+# 👀 Preview locally
+npx serve -s build
+```
+
+### 📊 **Performance Features**
+
+<div style="text-align: center;">
+
+| Feature | Benefit |
+|---------|---------|
+| ⚡ **Code Splitting** | Faster initial load |
+| 💾 **Smart Caching** | Reduced API calls |
+| 🎨 **CSS Optimization** | Minimal bundle size |
+| 📱 **Progressive Enhancement** | Better mobile experience |
+
+</div>
+
+---
+
+## 🌟 Code Quality
+
+<div style="text-align: center;">
+
+[![ESLint](https://img.shields.io/badge/ESLint-Enforced-4B32C3?style=for-the-badge&logo=eslint)](https://eslint.org/)
+[![Prettier](https://img.shields.io/badge/Prettier-Formatted-F7B93E?style=for-the-badge&logo=prettier)](https://prettier.io/)
+[![JSDoc](https://img.shields.io/badge/JSDoc-Documented-339933?style=for-the-badge&logo=javascript)](https://jsdoc.app/)
+
+</div>
+
+- 🛡️ **Error Boundaries** - Fault-tolerant user experience
+- 📝 **Comprehensive Documentation** - JSDoc throughout codebase  
+- 🧪 **Testing Infrastructure** - Jest & React Testing Library setup (implementation in progress)
+- 🔍 **Type Safety** - JSDoc type annotations for IntelliSense
+
+---
+
+## 🌍 Browser Support
+
+<div style="text-align: center;">
+
+![Chrome](https://img.shields.io/badge/Chrome-Latest-4285F4?style=flat-square&logo=google-chrome&logoColor=white)
+![Firefox](https://img.shields.io/badge/Firefox-Latest-FF7139?style=flat-square&logo=firefox&logoColor=white)
+![Safari](https://img.shields.io/badge/Safari-Latest-000000?style=flat-square&logo=safari&logoColor=white)
+![Edge](https://img.shields.io/badge/Edge-Latest-0078D4?style=flat-square&logo=microsoft-edge&logoColor=white)
+
+</div>
+
+---
+
+<div style="text-align: center;">
+
+## 🎉 **Ready to Transform Your Freight Billing?**
+
+*Built with modern React best practices for scalable freight billing management*
+
+### 📄 **License**
+
+<img src="public/assets/Janio-icon white.png" alt="Janio Logo" height="20" width="20" style="vertical-align: middle;" loading="lazy" width-original="642" height-original="642"> <strong style="color: white;">Janio</strong> - All rights reserved
+
+---
+
+<sub>Made with ❤️ using React, JavaScript ES6+, and modern web technologies</sub>
+
+</div>

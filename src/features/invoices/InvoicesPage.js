@@ -8,11 +8,11 @@ import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useInvoicesStore } from './api/useInvoicesStore';
+import { useInvoicesData } from './api/useInvoicesData';
 import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const InvoicesPage = () => {
-    const { invoices, isLoading, error, refetch } = useInvoicesStore();
+    const { data: invoices, isLoading, error, refetch } = useInvoicesData();
 
     // Loading state
     if (isLoading) {

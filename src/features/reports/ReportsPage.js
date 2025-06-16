@@ -6,11 +6,11 @@ import PageHeader from '../../components/layout/PageHeader';
 import StatCard from '../../components/ui/StatCard';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useReportsStore } from './api/useReportsStore';
+import { useReportsData } from './api/useReportsData';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const ReportsPage = () => {
-    const { reports, isLoading, error, refetch } = useReportsStore();
+    const { data: reports, isLoading, error, refetch } = useReportsData();
 
     // Loading state
     if (isLoading) {

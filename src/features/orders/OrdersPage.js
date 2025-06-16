@@ -8,11 +8,11 @@ import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
-import { useOrdersStore } from './api/useOrdersStore';
+import { useOrdersData } from './api/useOrdersData';
 import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const OrdersPage = () => {
-    const { orders, isLoading, error, refetch } = useOrdersStore();
+    const { data: orders, isLoading, error, refetch } = useOrdersData();
 
     // Loading state
     if (isLoading) {

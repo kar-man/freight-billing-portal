@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Calculator, ClipboardList, PackageCheck, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -29,17 +30,36 @@ import { motion } from 'framer-motion';
 /**
  * Billing Blockers Card component that displays billing blockers information
  * @param {Object} props - Component props
- * @param {Object} props.data - Billing blockers data
- * @param {string} props.data.currentMonth - Current month
- * @param {BlockerTypeData} props.data.missingBillingAmount - Orders missing billing amount
- * @param {BlockerTypeData} props.data.missingSupportingDocs - Orders missing supporting documents
- * @param {BlockerTypeData} props.data.missingPOD - Orders missing proof of delivery
+ * @param {Object} props.data - Billing blockers data containing currentMonth, missingBillingAmount, missingSupportingDocs, and missingPOD
  * @returns {JSX.Element} The BillingBlockersCard component
  */
 const BillingBlockersCard = ({ data }) => {
-    const [selectedMonth, setSelectedMonth] = useState(data.currentMonth);
+    // Provide default values if data is missing or incomplete
+    const safeData = useMemo(() => data || {
+        currentMonth: 'Current Month',
+        missingBillingAmount: { 
+            count: 0, 
+            value: '$0', 
+            description: 'Orders missing billing amount',
+            byMonth: { 'Current Month': { count: 0, value: '$0' } }
+        },
+        missingSupportingDocs: { 
+            count: 0, 
+            value: '$0', 
+            description: 'Orders missing supporting documents',
+            byMonth: { 'Current Month': { count: 0, value: '$0' } }
+        },
+        missingPOD: { 
+            count: 0, 
+            value: '$0', 
+            description: 'Orders missing proof of delivery',
+            byMonth: { 'Current Month': { count: 0, value: '$0' } }
+        }
+    }, [data]);
+
+    const [selectedMonth, setSelectedMonth] = useState(safeData.currentMonth);
     const [updateTime, setUpdateTime] = useState('');
-    const months = Object.keys(data.missingBillingAmount.byMonth);
+    const months = Object.keys(safeData.missingBillingAmount?.byMonth || { 'Current Month': { count: 0, value: '$0' } });
 
     useEffect(() => {
         // Set the update time when the component mounts or when the selected month changes
@@ -82,10 +102,10 @@ const BillingBlockersCard = ({ data }) => {
     const selectedMonthData = useMemo(() => {
         const result = {};
         blockerTypes.forEach(blocker => {
-            result[blocker.key] = data[blocker.key].byMonth[selectedMonth] || { count: 0, value: '$0' };
+            result[blocker.key] = safeData[blocker.key]?.byMonth?.[selectedMonth] || { count: 0, value: '$0' };
         });
         return result;
-    }, [data, selectedMonth, blockerTypes]);
+    }, [safeData, selectedMonth, blockerTypes]);
 
     const totalHeldUp = useMemo(() => {
         let total = 0;
@@ -144,6 +164,17 @@ const BillingBlockersCard = ({ data }) => {
                 </div>
             </div>
         );
+    };
+
+    // PropTypes for BlockerRow component
+    BlockerRow.propTypes = {
+        icon: PropTypes.node.isRequired,
+        amount: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        count: PropTypes.number.isRequired,
+        color: PropTypes.string.isRequired,
+        isEstimate: PropTypes.bool,
+        team: PropTypes.string
     };
 
     return (
@@ -255,6 +286,21 @@ const BillingBlockersCard = ({ data }) => {
             </div>
         </motion.div>
     );
+};
+
+
+// PropTypes for BillingBlockersCard component
+BillingBlockersCard.propTypes = {
+    data: PropTypes.shape({
+        currentMonth: PropTypes.string,
+        missingBillingAmount: PropTypes.object,
+        missingSupportingDocs: PropTypes.object,
+        missingPOD: PropTypes.object
+    })
+};
+
+BillingBlockersCard.defaultProps = {
+    data: null
 };
 
 export default BillingBlockersCard;

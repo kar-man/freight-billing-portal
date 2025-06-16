@@ -1,8 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { FileCheck2, AlertCircle, DollarSign, CheckCircle, Clock } from 'lucide-react';
 
 const LiveFeedCard = ({ data }) => {
+    // Provide default values if data is missing or incomplete
+    const safeData = Array.isArray(data) ? data : [];
+
     const getIcon = (iconName) => {
         switch(iconName) {
             case 'FileCheck2':
@@ -39,7 +43,7 @@ const LiveFeedCard = ({ data }) => {
         <div className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-900/10 border border-white/20 p-6 h-full flex flex-col">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Live Feed</h2>
             <div className="space-y-4 flex-grow overflow-y-auto custom-scrollbar">
-                {data.map((item) => (
+                {safeData.map((item) => (
                     <motion.div 
                         key={item.id}
                         initial={{ opacity: 0, x: 20 }}
@@ -64,6 +68,22 @@ const LiveFeedCard = ({ data }) => {
             </div>
         </div>
     );
+};
+
+LiveFeedCard.propTypes = {
+    data: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+            iconColor: PropTypes.string,
+            icon: PropTypes.string,
+            description: PropTypes.string,
+            timestamp: PropTypes.string
+        })
+    )
+};
+
+LiveFeedCard.defaultProps = {
+    data: []
 };
 
 export default LiveFeedCard;

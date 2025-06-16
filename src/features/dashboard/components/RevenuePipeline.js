@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { FileText, Edit3, ShieldAlert, ChevronRight } from 'lucide-react';
 
 // --- HELPER FUNCTION ---
@@ -95,16 +96,37 @@ const ProgressBar = ({ total, categories }) => {
 // --- MAIN COMPONENT ---
 // RevenuePipeline: The main dashboard widget container
 const RevenuePipeline = ({ data }) => {
+  // Provide default values if data is missing or incomplete
+  const safeData = useMemo(() => data || {
+    currentMonth: 'Current Month',
+    readyToBill: { 
+      count: 0, 
+      value: '$0', 
+      description: 'Orders ready to bill',
+      byMonth: { 'Current Month': { count: 0, value: '$0' } }
+    },
+    draftInvoices: { 
+      count: 0, 
+      value: '$0', 
+      description: 'Invoices in draft state',
+      byMonth: { 'Current Month': { count: 0, value: '$0' } }
+    },
+    disputedInvoices: { 
+      count: 0, 
+      value: '$0', 
+      description: 'Invoices in disputed state',
+      byMonth: { 'Current Month': { count: 0, value: '$0' } }
+    }
+  }, [data]);
+
   // Transform the data from the format in mockData to the format needed by this component
   const transformedData = useMemo(() => {
-    if (!data) return { totalPipeline: 0, categories: [] };
-
-    const currentMonth = data.currentMonth;
+    const currentMonth = safeData.currentMonth;
 
     // Calculate total pipeline value
-    const totalPipeline = Object.entries(data)
+    const totalPipeline = Object.entries(safeData)
       .filter(([key]) => ['readyToBill', 'draftInvoices', 'disputedInvoices'].includes(key))
-      .reduce((sum, [_, item]) => {
+      .reduce((sum, [/* key - unused */, item]) => {
         const value = item.byMonth[currentMonth]?.value || '$0';
         return sum + parseInt(value.replace(/[$,]/g, ''), 10);
       }, 0);
@@ -114,31 +136,31 @@ const RevenuePipeline = ({ data }) => {
       {
         id: 1,
         title: 'Ready to Bill',
-        count: data.readyToBill?.byMonth[currentMonth]?.count || 0,
-        value: parseInt(data.readyToBill?.byMonth[currentMonth]?.value?.replace(/[$,]/g, '') || 0, 10),
+        count: safeData.readyToBill?.byMonth[currentMonth]?.count || 0,
+        value: parseInt(safeData.readyToBill?.byMonth[currentMonth]?.value?.replace(/[$,]/g, '') || 0, 10),
         icon: <FileText size={20} />,
         color: 'blue',
       },
       {
         id: 2,
         title: 'Draft Invoices',
-        count: data.draftInvoices?.byMonth[currentMonth]?.count || 0,
-        value: parseInt(data.draftInvoices?.byMonth[currentMonth]?.value?.replace(/[$,]/g, '') || 0, 10),
+        count: safeData.draftInvoices?.byMonth[currentMonth]?.count || 0,
+        value: parseInt(safeData.draftInvoices?.byMonth[currentMonth]?.value?.replace(/[$,]/g, '') || 0, 10),
         icon: <Edit3 size={20} />,
         color: 'yellow',
       },
       {
         id: 3,
         title: 'Disputed Invoices',
-        count: data.disputedInvoices?.byMonth[currentMonth]?.count || 0,
-        value: parseInt(data.disputedInvoices?.byMonth[currentMonth]?.value?.replace(/[$,]/g, '') || 0, 10),
+        count: safeData.disputedInvoices?.byMonth[currentMonth]?.count || 0,
+        value: parseInt(safeData.disputedInvoices?.byMonth[currentMonth]?.value?.replace(/[$,]/g, '') || 0, 10),
         icon: <ShieldAlert size={20} />,
         color: 'red',
       },
     ];
 
     return { totalPipeline, categories };
-  }, [data]);
+  }, [safeData]);
 
   return (
     <div className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-900/10 p-6 border border-white/20">
@@ -161,6 +183,45 @@ const RevenuePipeline = ({ data }) => {
       </div>
     </div>
   );
+};
+
+// PropTypes for PipelineItem component
+PipelineItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    title: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    icon: PropTypes.node.isRequired,
+    color: PropTypes.string.isRequired
+  }).isRequired
+};
+
+// PropTypes for ProgressBar component
+ProgressBar.propTypes = {
+  total: PropTypes.number.isRequired,
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      title: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired
+    })
+  ).isRequired
+};
+
+// PropTypes for RevenuePipeline component
+RevenuePipeline.propTypes = {
+  data: PropTypes.shape({
+    currentMonth: PropTypes.string,
+    readyToBill: PropTypes.object,
+    draftInvoices: PropTypes.object,
+    disputedInvoices: PropTypes.object
+  })
+};
+
+RevenuePipeline.defaultProps = {
+  data: null
 };
 
 export default RevenuePipeline;

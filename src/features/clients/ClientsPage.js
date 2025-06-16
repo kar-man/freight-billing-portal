@@ -7,12 +7,12 @@ import StatCard from '../../components/ui/StatCard';
 import LoadingState from '../../components/ui/LoadingState';
 import ErrorState from '../../components/ui/ErrorState';
 import ClientCard from './components/ClientCard';
-import { useClientsStore } from './api/useClientsStore';
+import { useClientsData } from './api/useClientsData';
 import { containerVariants, itemVariants, noFadeItemVariants } from '../../utils/animationVariants';
 
 const ClientsPage = () => { 
     const [viewMode, setViewMode] = useState('grid');
-    const { clients, isLoading, error, refetch } = useClientsStore();
+    const { data: clients, isLoading, error, refetch } = useClientsData();
 
     // Loading state
     if (isLoading) {

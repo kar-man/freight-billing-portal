@@ -1,42 +1,27 @@
 import useSWR from 'swr';
-import { useState, useEffect } from 'react';
 import { mockData } from '../../../data/mockData';
 
+/**
+ * Hook for fetching dashboard data using SWR
+ * @returns {Object} Dashboard data and status
+ */
 export const useDashboardData = () => {
   const {
-    data: swrData,
+    data,
     error,
-    isLoading,
     isValidating,
     mutate
   } = useSWR('/dashboard', {
-    dedupingInterval: 5 * 60 * 1000, // 5 minutes (similar to staleTime)
-    revalidateOnFocus: false,
-    revalidateIfStale: false,
-    revalidateOnReconnect: false,
+    fallbackData: mockData.dashboard,
+    revalidateOnMount: false, // Don't revalidate on mount since we have fallback data
+    revalidateOnFocus: false, // Don't revalidate when window regains focus
   });
 
-  // State to hold the final data (either from SWR or mockFallback)
-  const [data, setData] = useState(null);
-  const [processedError, setProcessedError] = useState(null);
-
-  useEffect(() => {
-    if (swrData) {
-      setData(swrData);
-      setProcessedError(null);
-    } else if (error) {
-      // If the API request fails, return the mock data instead
-      setData(mockData.dashboard);
-      // Clear the error since we're using mock data
-      setProcessedError(null);
-    }
-  }, [swrData, error]);
-
   return {
-    data,
-    error: processedError,
-    isLoading,
-    isError: !!processedError,
+    data: data || mockData.dashboard, // Ensure we always have data
+    error,
+    isLoading: false, // Override loading state since we have fallback data
+    isError: !!error,
     isFetching: isValidating,
     refetch: mutate
   };

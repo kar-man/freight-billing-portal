@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
+import { SWRProvider } from './api/swrConfig';
 
 import Header from './components/layout/Header';
 import DashboardPage from './features/dashboard/DashboardPage';
@@ -95,9 +96,11 @@ const AnimatedRoutes = () => {
 export default function App() {
     return (
         <BrowserRouter>
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 font-sans antialiased">
-                <AnimatedRoutes />
-            </div>
+            <SWRProvider>
+                <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 font-sans antialiased">
+                    <AnimatedRoutes />
+                </div>
+            </SWRProvider>
         </BrowserRouter>
     );
 }

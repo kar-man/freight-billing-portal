@@ -8,11 +8,11 @@ import ErrorState from '../../components/ui/ErrorState';
 import BillingBlockersCard from './components/BillingBlockersCard';
 import RevenuePipeline from './components/RevenuePipeline';
 import LiveFeedCard from './components/LiveFeedCard';
-import { useDashboardStore } from './api/useDashboardStore';
+import { useDashboardData } from './api/useDashboardData';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';
 
 const DashboardPage = () => {
-    const { dashboard, isLoading, error, refetch } = useDashboardStore();
+    const { data: dashboard, isLoading, error, refetch } = useDashboardData();
 
     // Loading state
     if (isLoading) {
